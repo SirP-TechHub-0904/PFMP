@@ -57,7 +57,10 @@ namespace Infrastructure.Repositories
                 var preTestScore = "";
                 if (preTests.Count > 0)
                 {
-                    var correctPreAnswers = preTests.Count(x => x.Answer == x.TrainingTest.CorrectAnswer);
+                    var correctPreAnswers = preTests.Count(x => x.Answer != null
+                        && x.TrainingTest?.TrainingTestOptions != null
+                        && x.TrainingTest.TrainingTestOptions.Any(opt => opt.CorrectAnswer == true && opt.Id == x.Answer));
+
                     double _preTestScore = (double)correctPreAnswers / preTests.Count * 100;
 
                     preTestScore = $"{_preTestScore:F0}%";
@@ -72,8 +75,10 @@ namespace Infrastructure.Repositories
                 var postTestScore = "";
                 if (postTests.Count > 0)
                 {
-                    var correctPostAnswers = postTests.Count(x => x.Answer == x.TrainingTest.CorrectAnswer);
-                   double _postTestScore = (double)correctPostAnswers / postTests.Count * 100;
+                    var correctPostAnswers = postTests.Count(x => x.Answer != null
+                       && x.TrainingTest?.TrainingTestOptions != null
+                       && x.TrainingTest.TrainingTestOptions.Any(opt => opt.CorrectAnswer == true && opt.Id == x.Answer));
+                    double _postTestScore = (double)correctPostAnswers / postTests.Count * 100;
 
                      postTestScore = $"{_postTestScore:F0}%";
                 }
