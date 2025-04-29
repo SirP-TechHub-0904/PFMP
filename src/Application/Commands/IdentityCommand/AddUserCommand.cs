@@ -154,7 +154,7 @@ namespace Application.Commands.IdentityCommand
                     var getUserForUpdate = await _userManager.FindByIdAsync(user.Id);
                     //try
                     //{
-                    //    string baseUrl = "https://nutritionpfm.ng/"; // replace with your application base URL
+                    //    string baseUrl = "https://fmbepnutrition.ng/"; // replace with your application base URL
                     //    string relativeUrl = "/Identity/Account/Login";
                     //    Uri baseUri = new Uri(baseUrl);
                     //    Uri loginUri = new Uri(baseUri, relativeUrl);

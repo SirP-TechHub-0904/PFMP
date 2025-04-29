@@ -1099,6 +1099,9 @@ namespace Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
+                    b.Property<long?>("CategoryId")
+                        .HasColumnType("bigint");
+
                     b.Property<int>("CorrectAnswer")
                         .HasColumnType("int");
 
@@ -1116,6 +1119,8 @@ namespace Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("TrainingTests");
                 });
@@ -1545,6 +1550,15 @@ namespace Infrastructure.Migrations
                     b.Navigation("Training");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Domain.Models.TrainingTest", b =>
+                {
+                    b.HasOne("Domain.Models.TrainingCategory", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId");
+
+                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("Domain.Models.TrainingTestOption", b =>

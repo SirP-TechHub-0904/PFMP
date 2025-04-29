@@ -26,5 +26,11 @@ namespace Infrastructure.Repositories
             var list = await _context.TrainingTests.Include(x=>x.TrainingTestOptions).Where(x=>x.Publish == true).OrderBy(x=>x.SortOrder).ToListAsync();
             return list;
         }
+
+        public async Task<List<TrainingTest>> GetAllTrainingTestByCategory(long id)
+        {
+            var list = await _context.TrainingTests.Include(x => x.TrainingTestOptions).Where(x => x.Publish == true && x.CategoryId == id).OrderBy(x => x.SortOrder).ToListAsync();
+            return list;
+        }
     }
 }

@@ -41,7 +41,12 @@ namespace RazorWebUI.Areas.ITrainings.Pages.TestQuestions
                 DeleteTrainingTestOptionCommand Command = new DeleteTrainingTestOptionCommand(TrainingTestOption.Id);
                 await _mediator.Send(Command);
                 TempData["success"] = "Success";
-                return RedirectToPage("./Index");
+                long tid = TrainingTestOption.TrainingTestId ?? 0;
+
+                GetByIdTrainingTestQuery xCommand = new GetByIdTrainingTestQuery(tid);
+                var xTrainingTest = await _mediator.Send(xCommand);
+
+                return RedirectToPage("./Index", new { id = xTrainingTest.CategoryId });
             }
             catch (Exception ex)
             {

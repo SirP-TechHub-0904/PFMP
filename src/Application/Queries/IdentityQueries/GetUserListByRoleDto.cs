@@ -50,7 +50,7 @@ namespace Application.Queries.IdentityQueries
             //    });
 
             var UserDatas = _userManager.Users
-        .Where(x => x.Email != "universaadmin@nutritionpfm.ng" && x.Email != "jinmcever@nutritionpfm.ng")
+        .Where(x => x.Email != "universaadmin@fmbepnutrition.ng" && x.Email != "jinmcever@fmbepnutrition.ng")
     .AsEnumerable()
     .Where(x => x.Role != null && x.Role.Contains(request.Role))
     .ToList();

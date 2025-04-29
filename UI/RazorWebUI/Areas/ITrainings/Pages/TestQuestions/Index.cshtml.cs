@@ -1,3 +1,4 @@
+using Application.Queries.TrainingCategoryQueries;
 using Application.Queries.TrainingTestQueries;
 using Domain.Models;
 using MediatR;
@@ -20,10 +21,15 @@ namespace RazorWebUI.Areas.ITrainings.Pages.TestQuestions
         }
 
         public IEnumerable<TrainingTest> Datas { get; private set; }
-
-        public async Task OnGetAsync()
+        [BindProperty]
+        public TrainingCategory TrainingCategory { get; set; }
+        public async Task OnGetAsync(long id)
         {
-            var query = new ListTrainingTestQuery();
+
+            GetByIdTrainingCategoryQuery Command = new GetByIdTrainingCategoryQuery(id);
+            TrainingCategory = await _mediator.Send(Command);
+
+            var query = new ListTrainingTestByCategoryQuery(id);
             Datas = await _mediator.Send(query);
         }
     }

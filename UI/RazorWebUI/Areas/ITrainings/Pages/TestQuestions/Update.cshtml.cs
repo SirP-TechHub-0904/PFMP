@@ -40,7 +40,9 @@ namespace RazorWebUI.Areas.ITrainings.Pages.TestQuestions
                 UpdateTrainingTestCommand Command = new UpdateTrainingTestCommand(TrainingTest);
                 await _mediator.Send(Command);
                 TempData["success"] = "Success";
-                return RedirectToPage("./Index");
+
+
+                return RedirectToPage("./Index", new { id = TrainingTest.CategoryId });
             }
             catch (Exception ex)
             {

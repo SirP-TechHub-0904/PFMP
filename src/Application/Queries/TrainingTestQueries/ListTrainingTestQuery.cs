@@ -11,6 +11,12 @@ namespace Application.Queries.TrainingTestQueries
 {
     public sealed class ListTrainingTestQuery : IRequest<List<TrainingTest>>
     {
+        public ListTrainingTestQuery(long id)
+        {
+            Id = id;
+        }
+
+        public long Id { get;set;}
         public class ListTrainingTestQueryHandler : IRequestHandler<ListTrainingTestQuery, List<TrainingTest>>
         {
             private readonly ITrainingTestRepository _repository;
@@ -22,7 +28,7 @@ namespace Application.Queries.TrainingTestQueries
 
             public async Task<List<TrainingTest>> Handle(ListTrainingTestQuery request, CancellationToken cancellationToken)
             {
-                var list = await _repository.GetAllTrainingTest();
+                var list = await _repository.GetAllTrainingTestByCategory(request.Id);
                 return list;
             }
         }

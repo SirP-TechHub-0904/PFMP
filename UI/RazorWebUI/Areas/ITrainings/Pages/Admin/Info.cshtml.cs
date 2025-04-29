@@ -1,3 +1,4 @@
+using Application.Queries.TrainingCategoryQueries;
 using Application.Queries.TrainingQueries;
 using Domain.DTOs;
 using Domain.Models;
@@ -21,6 +22,9 @@ namespace RazorWebUI.Areas.ITrainings.Pages.Admin
         [BindProperty]
         public TrainingDto Training { get; set; }
 
+        [BindProperty]
+        public TrainingCategory TrainingCategory { get; set; }
+
         public async Task<IActionResult> OnGetAsync(long id)
         {
             if (id < 0)
@@ -29,6 +33,10 @@ namespace RazorWebUI.Areas.ITrainings.Pages.Admin
             }
             GetByIdAndCountTrainingQuery Command = new GetByIdAndCountTrainingQuery(id);
             Training = await _mediator.Send(Command);
+
+
+            GetByIdTrainingCategoryQuery xCommand = new GetByIdTrainingCategoryQuery(id);
+            TrainingCategory = await _mediator.Send(xCommand);
             return Page();
         }
     }

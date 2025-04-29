@@ -162,6 +162,7 @@ namespace Infrastructure.Repositories
             Title = x.Title,
             Address = x.Address,
             State = x.State,
+            CategoryId = x.TrainingCategoryId,
             LGA = x.LGA,
             Ward = x.Ward,
             EnablePostTest = x.EnablePostTest,

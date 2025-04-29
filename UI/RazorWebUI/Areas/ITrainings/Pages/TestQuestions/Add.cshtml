@@ -5,7 +5,7 @@
 
 <div class="card card-default">
     <div class="card-header">
-        <h3 class="card-title">ADD NEW PRE TEST/POST TEST QUESTIONS</h3> 
+        <h3 class="card-title">ADD NEW PRE TEST/POST TEST QUESTIONS (@Model.TrainingCategory.Title)</h3> 
     </div>
     <!-- /.card-header --> 
     <div class="card-body">
@@ -13,7 +13,7 @@
             <div class="col-md-12">
                 <form method="post" enctype="multipart/form-data">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                     
+                     <input type="hidden" asp-for="TrainingTest.CategoryId" value="@Model.TrainingCategory.Id" />
                     <div class="form-group">
                         <label asp-for="TrainingTest.Question" class="control-label"></label>
                         <textarea asp-for="TrainingTest.Question" class="form-control"></textarea>

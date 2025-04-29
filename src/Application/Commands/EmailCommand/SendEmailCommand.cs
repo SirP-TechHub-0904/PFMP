@@ -68,10 +68,10 @@ namespace Application.Commands.EmailCommand
 </html>
 ";
             emailTemplate = emailTemplate.Replace("//CompanyName//", "Nutrition Budget Tagging Refresher Workshop");
-            emailTemplate = emailTemplate.Replace("//YOUR_LOGO_URL//", "https://nutritionpfm.ng/img/Nutrition-pfm-2-logo-.png");
+            emailTemplate = emailTemplate.Replace("//YOUR_LOGO_URL//", "https://fmbepnutrition.ng/img/Nutrition-pfm-2-logo-.png");
             emailTemplate = emailTemplate.Replace("//Subject//", request.Message.Subject.Replace("\r\n", ""));
             emailTemplate = emailTemplate.Replace("//Body//", request.Message.Message);
-            emailTemplate = emailTemplate.Replace("//CompanyEmail//", "admin@nutritionpfm.ng");
+            emailTemplate = emailTemplate.Replace("//CompanyEmail//", "admin@fmbepnutrition.ng");
             emailTemplate = emailTemplate.Replace("//Date//", DateTime.UtcNow.Year.ToString());
             emailTemplate = emailTemplate.Replace("//Recipient_Name//", request.Message.Name);
 
@@ -79,7 +79,7 @@ namespace Application.Commands.EmailCommand
             PostmarkResponse response = new PostmarkResponse();
             var message = new PostmarkMessage
             {
-                From = "admin@nutritionpfm.ng", 
+                From = "admin@fmbepnutrition.ng", 
                 To = request.Message.Email,
                 Subject = request.Message.Subject,
                 HtmlBody = emailTemplate

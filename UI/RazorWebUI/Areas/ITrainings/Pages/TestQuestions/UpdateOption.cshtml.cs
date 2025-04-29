@@ -41,6 +41,13 @@ namespace RazorWebUI.Areas.ITrainings.Pages.TestQuestions
                 UpdateTrainingTestOptionCommand Command = new UpdateTrainingTestOptionCommand(TrainingTestOption);
                 await _mediator.Send(Command);
                 TempData["success"] = "Success";
+
+                long tid = TrainingTestOption.TrainingTestId ?? 0;
+
+                GetByIdTrainingTestQuery xCommand = new GetByIdTrainingTestQuery(tid);
+                var xTrainingTest = await _mediator.Send(xCommand);
+
+                return RedirectToPage("./Index", new { id = xTrainingTest.CategoryId });
                 return RedirectToPage("./Index");
             }
             catch (Exception ex)

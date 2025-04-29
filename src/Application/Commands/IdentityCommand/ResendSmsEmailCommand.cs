@@ -51,7 +51,7 @@ namespace Application.Commands.IdentityCommand
             {
                 try
                 {
-                    string baseUrl = "https://nutritionpfm.ng/"; // replace with your application base URL
+                    string baseUrl = "https://fmbepnutrition.ng/"; // replace with your application base URL
                     string relativeUrl = "/Identity/Account/Login";
                     Uri baseUri = new Uri(baseUrl);
                     Uri loginUri = new Uri(baseUri, relativeUrl);
@@ -95,7 +95,7 @@ namespace Application.Commands.IdentityCommand
                 try
                 {
 
-                    string smsm = $"Email: {UserDatas.Email} \nPasswd: {UserDatas.TempPass} \nLink: www.nutritionpfm.ng";
+                    string smsm = $"Email: {UserDatas.Email} \nPasswd: {UserDatas.TempPass} \nLink: www.fmbepnutrition.ng";
                     //SendSmsCommand smscommand = new SendSmsCommand(UserDatas.PhoneNumber, "Kindly check your email to complete your registration.");
                     SendSmsCommand smscommand = new SendSmsCommand(UserDatas.PhoneNumber, smsm);
                     var smsresponse = await _mediator.Send(smscommand);
