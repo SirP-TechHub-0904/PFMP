@@ -1153,6 +1153,64 @@ namespace Infrastructure.Migrations
                     b.ToTable("TrainingTestOption");
                 });
 
+            modelBuilder.Entity("Domain.Models.UserCategory", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UserCategories");
+                });
+
+            modelBuilder.Entity("Domain.Models.UserCategoryGroup", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("ColumnFour")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ColumnOne")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ColumnThree")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ColumnTwo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long>("UserCategoryId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserCategoryId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserCategoryGroups");
+                });
+
             modelBuilder.Entity("Domain.Models.UserTest", b =>
                 {
                     b.Property<long>("Id")
@@ -1570,6 +1628,25 @@ namespace Infrastructure.Migrations
                     b.Navigation("TrainingTest");
                 });
 
+            modelBuilder.Entity("Domain.Models.UserCategoryGroup", b =>
+                {
+                    b.HasOne("Domain.Models.UserCategory", "UserCategory")
+                        .WithMany("UserCategoryGroups")
+                        .HasForeignKey("UserCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Models.AppUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+
+                    b.Navigation("UserCategory");
+                });
+
             modelBuilder.Entity("Domain.Models.UserTest", b =>
                 {
                     b.HasOne("Domain.Models.Training", "Training")
@@ -1687,6 +1764,11 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.Models.TrainingTest", b =>
                 {
                     b.Navigation("TrainingTestOptions");
+                });
+
+            modelBuilder.Entity("Domain.Models.UserCategory", b =>
+                {
+                    b.Navigation("UserCategoryGroups");
                 });
 #pragma warning restore 612, 618
         }

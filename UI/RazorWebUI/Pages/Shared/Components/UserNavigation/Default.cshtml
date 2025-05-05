@@ -5,43 +5,24 @@
     <li class="nav-header" style="background-color: #c8cacc;border-radius: 4px;font-weight: bolder;color: black;">ADMIN MENU</li>
 
     <li class="nav-item">
-        <a href="#" class="nav-link">
+        <a asp-page="/Admin/Index" asp-area="Dashboard" class="nav-link">
             <i class="nav-icon fas fa-tachometer-alt"></i>
             <p>
-                Dashboard Manager
-                <i class="right fas fa-angle-left"></i>
+                Dashboard
+
             </p>
         </a>
-        <ul class="nav nav-treeview">
-
-            <li class="nav-item">
-                <a asp-page="/Admin/Index" asp-area="Dashboard" class="nav-link">
-                    <i class="nav-icon fas fa-circle nav-icon"></i>
-                    <p class="uppercase">
-                        Dashboard
-                    </p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a asp-page="/Admin/Paticipants" asp-area="Dashboard" class="nav-link">
-                    <i class="nav-icon fas fa-circle nav-icon"></i>
-                    <p class="uppercase">
-                        State Dashboard
-                    </p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a asp-page="/Admin/Facilitators" asp-area="Dashboard" class="nav-link">
-                    <i class="nav-icon fas fa-circle nav-icon"></i>
-                    <p class="uppercase">
-                        Facilitators Dashboard
-                    </p>
-                </a>
-            </li>
-        </ul>
     </li>
 
-
+    <li class="nav-item">
+        <a asp-page="/Admin/NutritionDashboard" asp-area="Dashboard" class="nav-link">
+            <i class="nav-icon fas fa-tree"></i>
+            <p>
+                N774 Dashboard
+            </p>
+        </a>
+    </li>
+    @**@
 
     <li class="nav-item">
         <a asp-page="/Category/Index" asp-area="ITrainings" class="nav-link">
@@ -51,33 +32,12 @@
             </p>
         </a>
     </li>
-    <li class="nav-item">
-        <a asp-page="/Admin/Index" asp-area="Campain" class="nav-link">
-            <i class="nav-icon fas fa-image"></i>
-            <p>
-                Awareness Campaign
-            </p>
-        </a>
-    </li>
-    <li class="nav-item">
-        <a asp-page="/ModulePage/Index" asp-area="ITrainings" class="nav-link">
-            <i class="nav-icon fas fa-table"></i>
-            <p>
-                Modules
-            </p>
-        </a>
-    </li>
+
+
     @if (User.Identity.IsAuthenticated && User.IsInRole("Admin") || User.IsInRole("mSuperAdmin"))
     {
 
-        <li class="nav-item">
-            <a asp-page="/TestQuestions/Index" asp-area="ITrainings" class="nav-link">
-                <i class="nav-icon fas fa-table"></i>
-                <p>
-                    Test Questions
-                </p>
-            </a>
-        </li>
+
         <li class="nav-item">
             <a asp-page="/EvaluationPage/Index" asp-area="ITrainings" class="nav-link">
                 <i class="nav-icon fas fa-table"></i>
@@ -94,39 +54,67 @@
                 </p>
             </a>
         </li>
+       
+
         <li class="nav-item">
-            <a asp-page="/Admin/ListParticipants" asp-area="User" class="nav-link">
-                <i class="nav-icon fas fa-users"></i>
-                <p>
-                    Participants
-                </p>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a asp-page="/Admin/AllFacilitators" asp-area="User" class="nav-link">
-                <i class="nav-icon fas fa-users-cog"></i>
-                <p>
-                    Faciliators
-                </p>
-            </a>
-        </li>
-        
-        <li class="nav-item">
-            <a asp-page="/Admin/Index" asp-area="User" class="nav-link">
+            <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-user-slash"></i>
                 <p>
                     Users
                 </p>
+                <i class="right fas fa-angle-left"></i>
             </a>
+            <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <a asp-page="/Admin/Index" asp-area="User" class="nav-link">
+                        <i class="nav-icon fas fa-circle nav-icon"></i>
+                        <p>
+                            Users
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a asp-page="/Admin/ListParticipants" asp-area="User" class="nav-link">
+                        <i class="nav-icon fas fa-circle nav-icon"></i>
+                        <p>
+                            Participants
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a asp-page="/Admin/AllFacilitators" asp-area="User" class="nav-link">
+                        <i class="nav-icon fas fa-circle nav-icon"></i>
+                        <p>
+                            Faciliators
+                        </p>
+                    </a>
+                </li>
+                @foreach (var item in ViewBag.usergroup)
+                {
+                    <li class="nav-item">
+                        <a asp-page="/Admin/UserInGroup" asp-route-id="@item.Id" asp-area="User" class="nav-link">
+                            <i class="nav-icon fas fa-circle nav-icon"></i>
+                            <p>
+                                @item.Title
+                            </p>
+                        </a>
+                    </li>
+                }
+
+
+            </ul>
+
         </li>
         <li class="nav-item">
-            <a asp-page="/Admin/Index" asp-area="BackToWork" class="nav-link">
-                <i class="nav-icon fas fa-ellipsis-h"></i>
+            <a asp-page="/UserGroupPage/Index" asp-area="User" class="nav-link">
+                <i class="nav-icon fas fa-user-slash"></i>
                 <p>
-                    Back To Work Plan
+                    User Groups
                 </p>
             </a>
         </li>
+
         <li class="nav-item">
             <a asp-page="/Admin/Sponsors" asp-area="ITrainings" class="nav-link">
                 <i class="nav-icon fas fa-plus-square"></i>
@@ -136,29 +124,14 @@
             </a>
         </li>
 
-        <li class="nav-item">
-            <a asp-page="/Admin/Index" asp-area="User" class="nav-link">
-                <i class="nav-icon fas fa-edit"></i>
-                <p>
-                    Expenses
-                </p>
-            </a>
-        </li>
     }
-    <li class="nav-item">
-        <a asp-page="/Admin/Index" asp-area="Notification" class="nav-link">
-            <i class="nav-icon fas fa-bell"></i>
-            <p>
-                Notification (4)
-            </p>
-        </a>
-    </li>
+    
 
     <li class="nav-item">
         <a href="#" class="nav-link">
             <i class="nav-icon fas fa-th"></i>
             <p>
-                Tools
+                Awareness Campaign
                 <i class="right fas fa-angle-left"></i>
             </p>
         </a>
@@ -180,14 +153,7 @@
                     </p>
                 </a>
             </li>
-            <li class="nav-item">
-                <a asp-page="/Settings/Index" asp-area="Tools" class="nav-link">
-                    <i class="nav-icon fas fa-circle nav-icon"></i>
-                    <p class="uppercase">
-                        Emails Manager
-                    </p>
-                </a>
-            </li>
+
         </ul>
     </li>
 
@@ -246,15 +212,8 @@
             </p>
         </a>
     </li>
- 
-    <li class="nav-item">
-        <a asp-page="/User/Index" asp-area="Notification" class="nav-link">
-            <i class="nav-icon fas fa-bell"></i>
-            <p>
-                Notification(4)
-            </p>
-        </a>
-    </li>
+
+    
     <li class="nav-item">
         <a asp-page="/User/Index" asp-area="Campain" class="nav-link">
             <i class="nav-icon fas fa-image"></i>
@@ -339,12 +298,4 @@
         </li>
 
     </ul>
-</li>
-<li class="nav-item">
-    <a class="nav-link">
-        <i class="nav-icon fas fa-globe"></i>
-        <p>
-            Website
-        </p>
-    </a>
 </li>

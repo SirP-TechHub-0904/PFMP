@@ -1,0 +1,72 @@
+﻿@page
+@model RazorWebUI.Areas.User.Pages.Admin.UserInGroupModel
+@{
+}
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">@Model.UserCategory.Description</h3>
+    </div>
+   
+</div>
+
+
+ 
+<div class="card">
+    <div class="card-header">
+        <h4 class="card-title">Group Members</h4>
+    </div>
+    <div class="card-body table-responsive">
+        <table id="" class="example-table table table-bordered table-striped">
+
+            <thead>
+                <tr>
+                    <th>S/N</th>
+                    <th>Full Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>State</th>
+                    <th>LGA</th>
+                    <th>Address</th>
+                    <th>ICT Saavy</th>
+                    <th>LGCFN</th>
+                    <th>LGCFN</th>
+                </tr>
+            </thead>
+            @{
+                int sn = 0;
+            }
+            <tbody>
+                @foreach (var item in Model.UserList)
+                {
+                    <tr>
+
+                        <td>
+                            @{
+                                sn++;
+                            }
+                            @sn
+                        </td>
+                        <td>@item.User.FullnameX</td>
+                        <td>@item.User.Email</td>
+                        <td>@item.User.PhoneNumber</td>
+                        <td>@item.User.CurrentState</td>
+                        <td>@item.User.CurrentLga</td>
+                        <td>@item.User.Address</td>
+                        <td>@item.ColumnOne</td>
+                        <td>@item.ColumnTwo</td>
+                        <td>@item.ColumnThree</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="card-footer">
+        <a asp-page="Edit" asp-route-id="@Model.UserCategory.Id" class="btn btn-info">Edit Category</a>
+        <a asp-page="Index" class="btn btn-secondary">Back</a>
+    </div>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

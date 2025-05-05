@@ -1,10 +1,12 @@
 using Application.Queries.DashboardQueries;
 using Application.Queries.IdentityQueries;
 using Domain.DTOs;
+using Domain.Models;
 using Infrastructure.Repositories;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
 namespace RazorWebUI.Areas.Dashboard.Pages.Admin
@@ -15,16 +17,19 @@ namespace RazorWebUI.Areas.Dashboard.Pages.Admin
     {
         private readonly ILogger<IndexModel> _logger;
         private readonly IMediator _mediator;
+        private readonly AppDbContext _context;
 
-        public IndexModel(ILogger<IndexModel> logger, IMediator mediator)
+        public IndexModel(ILogger<IndexModel> logger, IMediator mediator, AppDbContext context)
         {
             _logger = logger;
             _mediator = mediator;
+            _context = context;
         }
 
         public AdminDashboardDto Datas { get; private set; }
+         public List<UserCategory> UserCategories { get; set; }
 
-        public async Task OnGetAsync()
+        public async Task<IActionResult> OnGetAsync()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
@@ -42,6 +47,14 @@ namespace RazorWebUI.Areas.Dashboard.Pages.Admin
 
             var query = new GetDashboardQuery(state);
             Datas = await _mediator.Send(query);
+
+
+            UserCategories = await _context.UserCategories
+                .Include(x=>x.UserCategoryGroups)
+                .ToListAsync();
+             
+
+            return Page();
         }
 
     }

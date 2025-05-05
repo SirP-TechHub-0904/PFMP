@@ -40,5 +40,10 @@ namespace Infrastructure.Context
         public DbSet<DialyEvaluationQuestion> DialyEvaluationQuestions { get; set; }
         public DbSet<TimeTable> TimeTables { get; set; }
         public DbSet<Gallery> Galleries { get; set; }
+
+        public DbSet<UserCategory> UserCategories { get; set; }
+        public DbSet<UserCategoryGroup> UserCategoryGroups { get; set; }
+
+
     }
 }

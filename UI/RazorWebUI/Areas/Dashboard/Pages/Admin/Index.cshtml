@@ -13,21 +13,22 @@
     <!-- /.card-header -->
     <div class="card-body">
         <div class="row">
+            @foreach(var item in Model.UserCategories) { 
 
             <div class="col-lg-3 col-6 dashboard-1">
                 <!-- small box -->
-                <a asp-page="/Admin/Index" asp-area="ITrainings">
+                <a asp-page="/Admin/UserInGroup" asp-route-id="@item.Id" asp-area="User">
                     <div class="small-box bg-primary">
                         <div class="inner">
-                            <h3>@Model.Datas.Trainings</h3>
+                            <h3>@item.UserCategoryGroups.Count()</h3>
 
-                            <p>Total Trainings</p>
+                            <p>@item.Title</p>
                         </div>
 
                     </div>
                 </a>
             </div>
-
+            }
 
 
             <div class="col-lg-3 col-6 dashboard-1">
@@ -84,35 +85,7 @@
                     </div>
                 </a>
             </div>
-
-            <div class="col-lg-3 col-6 dashboard-1">
-                <!-- small box -->
-                <a asp-page="/Admin/AllFacilitators" asp-area="User" asp-route-name="StateAdmin">
-                    <div class="small-box bg-fuchsia">
-                        <div class="inner">
-                            <h3>0</h3>
-
-                            <p>Total State Admin</p>
-                        </div>
-
-                    </div>
-                </a>
-            </div>
-
-
-            <div class="col-lg-3 col-6 dashboard-1">
-                <!-- small box -->
-                <a asp-page="" asp-area="">
-                    <div class="small-box bg-navy">
-                        <div class="inner">
-                            <h3>0</h3>
-
-                            <p>Back To Work Plans</p>
-                        </div>
-
-                    </div>
-                </a>
-            </div>
+             
             <div class="col-lg-3 col-6 dashboard-1">
                 <!-- small box -->
                 <a asp-page="" asp-area="">

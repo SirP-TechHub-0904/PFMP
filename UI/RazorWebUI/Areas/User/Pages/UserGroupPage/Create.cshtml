@@ -1,0 +1,37 @@
+﻿@page
+@model RazorWebUI.Areas.User.Pages.UserGroupPage.CreateModel
+@{
+} 
+
+<div class="card card-default">
+    <div class="card-header">
+        <h3 class="card-title">CREATE USER CATEGORY</h3>
+    </div>
+
+    <div class="card-body">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="UserCategory.Title" class="control-label"></label>
+                <input asp-for="UserCategory.Title" class="form-control" />
+                <span asp-validation-for="UserCategory.Title" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="UserCategory.Description" class="control-label"></label>
+                <input asp-for="UserCategory.Description" class="form-control" />
+                <span asp-validation-for="UserCategory.Description" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+                <a asp-page="Index" class="btn bg-gradient-warning btn-sm" style="float:right;">Back</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}
