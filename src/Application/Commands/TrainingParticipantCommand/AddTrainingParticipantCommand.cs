@@ -46,7 +46,7 @@ namespace Application.Commands.TrainingParticipantCommand
                 if (result == true)
                 {
                     SendTrainingNoticeCommand sendmailcommand = new SendTrainingNoticeCommand(request.TrainingParticipant.UserId,
-                            request.TrainingParticipant.TrainingId, "as a PARTICIPANT", "");
+                            request.TrainingParticipant.TrainingId, "", "");
                     await _mediator.Send(sendmailcommand);
                 }
 

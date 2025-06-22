@@ -35,8 +35,7 @@
                     <thead>
                         <tr>
                             <th>S/N</th>
-                            <th>Question</th>
-                            <th>Is Module Topic</th>
+                            <th>Question</th> 
                             <th>
                                 Answer Type
                             </th>
@@ -65,13 +64,7 @@
 
 
                                 </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.IsModuleTopic)
-                                    @if (item.IsModuleTopic == true)
-                                    {
-                                        <span class="bg-success" style="padding:2px;">module</span>
-                                    }
-                                </td>
+                               
                                 <td>
                                     @Html.DisplayFor(modelItem => item.EvaluationAnswerType)
                                 </td>
@@ -81,7 +74,7 @@
                                 <td>
                                     <form method="post" asp-page-handler="Delete">
                                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                                        <input type="hidden" asp-for="DialyEvaluationQuestion.DialyActivityId" value="@item.DialyActivityId" />
+                                        <input type="hidden" asp-for="DialyEvaluationQuestion.TrainingId" value="@item.TrainingId" />
                                         <input type="hidden" asp-for="DialyEvaluationQuestion.Id" value="@item.Id" />
                                         <input type="submit" value="Delete" class="btn btn-danger" />
                                     </form>
@@ -110,7 +103,7 @@
                     <div class="card-body">
                         <form method="post">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                            <input type="hidden" asp-for="DialyEvaluationQuestion.DialyActivityId" value="@Model.DialyActivity.Id" />
+                            <input type="hidden" asp-for="DialyEvaluationQuestion.TrainingId" value="@Model.Training.Id" />
 
                             <div class="" style="padding:5px;border:2px dashed #808080;">
 

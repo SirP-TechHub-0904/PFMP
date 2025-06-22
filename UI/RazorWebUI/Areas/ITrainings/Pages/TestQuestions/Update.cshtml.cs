@@ -42,7 +42,7 @@ namespace RazorWebUI.Areas.ITrainings.Pages.TestQuestions
                 TempData["success"] = "Success";
 
 
-                return RedirectToPage("./Index", new { id = TrainingTest.CategoryId });
+                return RedirectToPage("./Index", new { id = TrainingTest.TrainingId });
             }
             catch (Exception ex)
             {

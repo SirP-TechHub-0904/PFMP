@@ -24,7 +24,7 @@ namespace Infrastructure.Repositories
 
         public async Task<bool> CheckIfEvaluationHasBeenTaken(long eveluationQuestionId)
         {
-            var result = await _context.DialyUserEvaluations.FirstOrDefaultAsync(x => x.DialyEvaluationQuestionId == eveluationQuestionId);
+            var result = await _context.DialyUserEvaluations.FirstOrDefaultAsync(x => x.EvaluationQuestionId == eveluationQuestionId);
             if (result == null)
             {
                 return false;
@@ -34,7 +34,7 @@ namespace Infrastructure.Repositories
 
         public async Task<bool> CheckIfUserTookEvaluation(string userid, long dailyId)
         {
-            var data = await _context.DialyUserEvaluations.Where(x => x.DialyActivityId == dailyId && x.UserId == userid && x.Submitted == true
+            var data = await _context.DialyUserEvaluations.Where(x => x.TrainingId == dailyId && x.UserId == userid && x.Submitted == true
             ).FirstOrDefaultAsync();
             if (data != null)
             {
@@ -47,8 +47,8 @@ namespace Infrastructure.Repositories
         {
             DialyUserEvaluationResultDto result = new DialyUserEvaluationResultDto();
             var userresult = await _context.DialyUserEvaluations
-               .Include(x => x.DialyEvaluationQuestion)
-               .Where(x => x.DialyActivityId == dailyId && x.UserId == userId).ToListAsync();
+               .Include(x => x.EvaluationQuestion)
+               .Where(x => x.TrainingId == dailyId && x.UserId == userId).ToListAsync();
 
             result.DialyUserEvaluation = userresult;
 
@@ -58,21 +58,21 @@ namespace Infrastructure.Repositories
             return result;
         }
 
-        public async Task DialyUserEvaluationSubmit(List<(long questionId, string answer, string userId, long dailyId)> evaluationData)
+        public async Task DialyUserEvaluationSubmit(List<(long questionId, string answer, string userId, long trainingId)> evaluationData)
         {
-            foreach (var (questionId, answer, userId, dailyId) in evaluationData)
+            foreach (var (questionId, answer, userId, trainingId) in evaluationData)
             {
                 var existingEvaluation = await _context.DialyUserEvaluations
-                    .FirstOrDefaultAsync(e => e.UserId == userId && e.DialyActivityId == dailyId && e.DialyEvaluationQuestionId == questionId);
+                    .FirstOrDefaultAsync(e => e.UserId == userId && e.TrainingId == trainingId && e.EvaluationQuestionId == questionId);
 
                 if (existingEvaluation == null)
                 {
                     var newEvaluation = new DialyUserEvaluation
                     {
                         UserId = userId,
-                        DialyActivityId = dailyId,
+                        TrainingId = trainingId,
                         Answer = answer,
-                        DialyEvaluationQuestionId = questionId,
+                        EvaluationQuestionId = questionId,
                         Submitted = true,
                         Date = DateTime.UtcNow.AddHours(1)
                     };
@@ -106,9 +106,9 @@ namespace Infrastructure.Repositories
         public async Task<List<DialyUserEvaluation>> GetAll(long id)
         {
             var list = await _context.DialyUserEvaluations.Include(x => x.User)
-                .Include(x => x.DialyEvaluationQuestion)
-                .Include(x => x.DialyActivity)
-                .Where(x => x.DialyActivityId == id)
+                .Include(x => x.EvaluationQuestion)
+                .Include(x => x.Training)
+                .Where(x => x.TrainingId == id)
                 .GroupBy(x => x.UserId)
         .Select(g => g.First())
                 .ToListAsync();

@@ -11,21 +11,21 @@ namespace Application.Commands.DialyEvaluationQuestionCommand
 {
     public sealed class AddDialyEvaluationQuestionCommand : IRequest
     {
-        public AddDialyEvaluationQuestionCommand(DialyEvaluationQuestion certificate)
+        public AddDialyEvaluationQuestionCommand(EvaluationQuestion certificate)
         {
             DialyEvaluationQuestion = certificate;
         }
 
-        public DialyEvaluationQuestion DialyEvaluationQuestion { get; set; }
+        public EvaluationQuestion DialyEvaluationQuestion { get; set; }
 
 
     }
 
     public class AddDialyEvaluationQuestionCommandHandler : IRequestHandler<AddDialyEvaluationQuestionCommand>
     {
-        private readonly IDialyEvaluationQuestionRepository _certificateRepository;
+        private readonly IEvaluationQuestionRepository _certificateRepository;
 
-        public AddDialyEvaluationQuestionCommandHandler(IDialyEvaluationQuestionRepository certificateRepository)
+        public AddDialyEvaluationQuestionCommandHandler(IEvaluationQuestionRepository certificateRepository)
         {
             _certificateRepository = certificateRepository;
         }

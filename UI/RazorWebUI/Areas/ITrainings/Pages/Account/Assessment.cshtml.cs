@@ -53,12 +53,8 @@ namespace RazorWebUI.Areas.ITrainings.Pages.Account
             {
                 return RedirectToPage("./Index");
             }
-            long ctid = Training.CategoryId ?? 0;
-            if(ctid == null)
-            {
-                return NotFound();
-            }
-            var query = new ListTrainingTestQuery(ctid);
+             
+            var query = new ListTrainingTestQuery(tid);
             Datas = await _mediator.Send(query);
             if (xty == 0)
             {

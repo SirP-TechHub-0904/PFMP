@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Repositories
 {
- 
+
     public sealed class EvaluationQuestionRepository : Repository<EvaluationQuestion>, IEvaluationQuestionRepository
     {
         private readonly AppDbContext _context;
@@ -24,8 +24,28 @@ namespace Infrastructure.Repositories
         public async Task<List<EvaluationQuestion>> GetAllListAsync()
         {
             var list = await _context.EvaluationQuestions
-                .Include(x=>x.EvaluationQuestionCategory).ToListAsync();
+                .Include(x => x.EvaluationQuestionCategory).ToListAsync();
             return list;
+        }
+
+
+        public async Task<List<EvaluationQuestion>> GetAllListByTrainingIdAsync(long id)
+        {
+            try
+            {
+
+                var list = await _context.EvaluationQuestions
+                    .Include(x => x.EvaluationQuestionCategory)
+                    .Include(x => x.EvaluationQuestionOptions)
+                    .Where(x => x.TrainingId == id).ToListAsync();
+                return list;
+
+            }
+            catch (Exception c)
+            {
+                
+                return null;
+            }
         }
     }
 }

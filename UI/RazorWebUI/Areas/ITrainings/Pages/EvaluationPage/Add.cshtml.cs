@@ -4,6 +4,7 @@ using Domain.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Application.Queries.TrainingQueries;
 
 namespace RazorWebUI.Areas.ITrainings.Pages.EvaluationPage
 {
@@ -21,9 +22,16 @@ namespace RazorWebUI.Areas.ITrainings.Pages.EvaluationPage
         [BindProperty]
         public EvaluationQuestion EvaluationQuestion { get; set; }
 
-        public async Task<IActionResult> OnGetAsync()
+        [BindProperty]
+        public Training Training { get; set; }
+        public async Task<IActionResult> OnGetAsync(long id)
         {
-
+            GetByIdTrainingQuery Command = new GetByIdTrainingQuery(id);
+            Training = await _mediator.Send(Command);
+            if (Training == null)
+            {
+                return NotFound();
+            }
             return Page();
         }
         public async Task<IActionResult> OnPostAsync()
@@ -33,7 +41,7 @@ namespace RazorWebUI.Areas.ITrainings.Pages.EvaluationPage
                 AddEvaluationQuestionCommand Command = new AddEvaluationQuestionCommand(EvaluationQuestion);
                 await _mediator.Send(Command);
                 TempData["success"] = "Success";
-                return RedirectToPage("./Index");
+                return RedirectToPage("./Index", new {id = EvaluationQuestion.TrainingId});
             }
             catch (Exception ex)
             {

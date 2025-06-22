@@ -32,9 +32,7 @@ namespace Application.Commands.EvaluationQuestionCommand
 
         public async Task Handle(AddEvaluationQuestionCommand request, CancellationToken cancellationToken)
         {
-
             await _EvaluationQuestionRepository.AddAsync(request.EvaluationQuestion);
-
 
         }
     }

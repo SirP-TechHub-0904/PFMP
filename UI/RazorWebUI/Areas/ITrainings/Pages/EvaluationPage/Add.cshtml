@@ -5,7 +5,7 @@
 
 <div class="card card-default">
     <div class="card-header">
-        <h3 class="card-title">ADD NEW EVALUATION QUESTIONS</h3> 
+        <h3 class="card-title">ADD NEW EVALUATION QUESTIONS (@Model.Training.Title)</h3> 
     </div>
     <!-- /.card-header --> 
     <div class="card-body">
@@ -13,6 +13,7 @@
             <div class="col-md-12">
                 <form method="post" enctype="multipart/form-data">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="EvaluationQuestion.TrainingId" value="@Model.Training.Id" />
 
                     <div class="form-group">
                         <label asp-for="EvaluationQuestion.Question" class="control-label"></label>

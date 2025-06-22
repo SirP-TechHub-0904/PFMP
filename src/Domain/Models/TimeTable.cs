@@ -12,14 +12,10 @@ namespace Domain.Models
         public DateTime DateTime { get; set; }
 
         public string? Activity {  get; set; }
+        public string? Day {  get; set; }
 
-        public long? ModuleTopicId {  get; set; }
-        public ModuleTopic ModuleTopic {  get; set; }
-
-        public string? FacilitatorId { get; set; }
-        public AppUser Facilitator { get; set; }
-
-        public bool Publish {  get; set; }
+       public string? ResponsiblePerson { get;set;}
+       public int SortOrder { get;set; }
 
         public long TrainingId { get; set; }
         public Training Training { get; set; }

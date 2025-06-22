@@ -11,5 +11,7 @@ namespace Domain.Interfaces
     public interface IEvaluationQuestionRepository : IRepository<EvaluationQuestion>
     {
         Task<List<EvaluationQuestion>> GetAllListAsync();
+        Task<List<EvaluationQuestion>> GetAllListByTrainingIdAsync(long id);
+
     }
 }

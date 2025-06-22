@@ -46,7 +46,7 @@ namespace RazorWebUI.Areas.ITrainings.Pages.TestQuestions
                 GetByIdTrainingTestQuery xCommand = new GetByIdTrainingTestQuery(tid);
                 var xTrainingTest = await _mediator.Send(xCommand);
 
-                return RedirectToPage("./Index", new { id = xTrainingTest.CategoryId });
+                return RedirectToPage("./Index", new { id = xTrainingTest.TrainingId });
             }
             catch (Exception ex)
             {

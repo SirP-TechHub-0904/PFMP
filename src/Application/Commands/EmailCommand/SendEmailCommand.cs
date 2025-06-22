@@ -42,21 +42,13 @@ namespace Application.Commands.EmailCommand
 
     <table role=""presentation"" cellspacing=""0"" cellpadding=""0"" width=""100%"" style=""border-collapse: collapse;"">
         <tr>
-            <td style=""padding: 20px 0; text-align: center;"">
-                <img src=""//YOUR_LOGO_URL//"" alt=""Company Logo"" width=""200"" style=""display: inline-block;"">
+            <td>
+//Body//
+
             </td>
         </tr>
-        <tr>
-            <td style=""background-color: #f4f4f4; padding: 20px;"">
-                <h2 style=""color: #333333;"">HELLO //Recipient_Name//,</h2>    
-<h4 style=""color: #333333;"">//Subject//.</h4>
+        
 
-
-                <p style=""color: #666666;"">
-                    //Body//
-                </p>
-            </td>
-        </tr>
         <tr>
             <td style=""background-color: #333333; color: #ffffff; padding: 10px; text-align: center;"">
                 <p>&copy; //Date// //CompanyName// | Contact us at: <a href=""mailto://CompanyEmail//"" style=""color: #ffffff; text-decoration: none;"">//CompanyEmail//</a></p>
@@ -67,19 +59,19 @@ namespace Application.Commands.EmailCommand
 </body>
 </html>
 ";
-            emailTemplate = emailTemplate.Replace("//CompanyName//", "Nutrition Budget Tagging Refresher Workshop");
-            emailTemplate = emailTemplate.Replace("//YOUR_LOGO_URL//", "https://fmbepnutrition.ng/img/Nutrition-pfm-2-logo-.png");
-            emailTemplate = emailTemplate.Replace("//Subject//", request.Message.Subject.Replace("\r\n", ""));
+
+            emailTemplate = emailTemplate.Replace("//CompanyName//", "FMBEP Nutrition");
+
+            emailTemplate = emailTemplate.Replace("//Subject//", request.Message.Subject);
             emailTemplate = emailTemplate.Replace("//Body//", request.Message.Message);
             emailTemplate = emailTemplate.Replace("//CompanyEmail//", "admin@fmbepnutrition.ng");
             emailTemplate = emailTemplate.Replace("//Date//", DateTime.UtcNow.Year.ToString());
-            emailTemplate = emailTemplate.Replace("//Recipient_Name//", request.Message.Name);
 
 
             PostmarkResponse response = new PostmarkResponse();
             var message = new PostmarkMessage
             {
-                From = "admin@fmbepnutrition.ng", 
+                From = "FMBEP Nutrition Workshops <admin@fmbepnutrition.ng>", 
                 To = request.Message.Email,
                 Subject = request.Message.Subject,
                 HtmlBody = emailTemplate

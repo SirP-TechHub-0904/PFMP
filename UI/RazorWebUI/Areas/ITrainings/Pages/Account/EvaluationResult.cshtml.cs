@@ -31,12 +31,9 @@ namespace RazorWebUI.Areas.ITrainings.Pages.Account
         public DialyActivity DialyActivity { get; set; }
 
         public BasicProfileDto BasicProfileDto { get; set; }
-        public async Task<IActionResult> OnGetAsync(long did, string userId, long tid)
+        public async Task<IActionResult> OnGetAsync(string userId, long tid)
         {
-            if (did < 0)
-            {
-                return NotFound();
-            }
+            
             if (userId == null)
             {
                 userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -46,7 +43,7 @@ namespace RazorWebUI.Areas.ITrainings.Pages.Account
                 GetUserByIdQuery userCommand = new GetUserByIdQuery(userId);
                 BasicProfileDto = await _mediator.Send(userCommand);
             }
-            DialyUserEvaluationResultQuery Command = new DialyUserEvaluationResultQuery(did, userId);
+            DialyUserEvaluationResultQuery Command = new DialyUserEvaluationResultQuery(tid, userId);
             DialyUserEvaluationResultDto = await _mediator.Send(Command);
 
             if (DialyUserEvaluationResultDto != null)
@@ -56,14 +53,12 @@ namespace RazorWebUI.Areas.ITrainings.Pages.Account
                     TempData["error"] = "No Assessment Found";
                     if (User.IsInRole("Participant"))
                     {
-                        return RedirectToPage("./DialyActivity", new { id = tid });
+                        return RedirectToPage("./info", new { id = tid });
                     }
-                    return RedirectToPage("/Admin/Activities", new { id = tid });
+                    return RedirectToPage("/Admin/info", new { id = tid });
                 }
             }
-
-            var query = new GetByIdDialyActivityQuery(did);
-            DialyActivity = await _mediator.Send(query);
+             
 
             GetByIdTrainingQuery xCommand = new GetByIdTrainingQuery(tid);
             Training = await _mediator.Send(xCommand);

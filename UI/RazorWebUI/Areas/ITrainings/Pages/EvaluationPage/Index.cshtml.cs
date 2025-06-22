@@ -1,4 +1,5 @@
 using Application.Queries.EvaluationQuestionQueries;
+using Application.Queries.TrainingQueries;
 using Domain.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -20,10 +21,17 @@ namespace RazorWebUI.Areas.ITrainings.Pages.EvaluationPage
         }
 
         public IEnumerable<EvaluationQuestion> Datas { get; private set; }
-
-        public async Task OnGetAsync()
+        [BindProperty]
+        public Training Training { get; set; }
+        public async Task OnGetAsync(long id)
         {
-            var query = new ListEvaluationQuestionQuery();
+
+
+            GetByIdTrainingQuery Command = new GetByIdTrainingQuery(id);
+            Training = await _mediator.Send(Command);
+
+
+            var query = new ListEvaluationQuestionQuery(id);
             Datas = await _mediator.Send(query);
         }
     }

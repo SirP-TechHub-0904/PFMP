@@ -1,6 +1,7 @@
 using Application.Commands.TrainingCommand;
 using Application.Commands.TrainingTestCommand;
 using Application.Queries.TrainingCategoryQueries;
+using Application.Queries.TrainingQueries;
 using Domain.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -23,12 +24,12 @@ namespace RazorWebUI.Areas.ITrainings.Pages.TestQuestions
         public TrainingTest TrainingTest { get; set; }
 
         [BindProperty]
-        public TrainingCategory TrainingCategory { get; set; }
+        public Training Training { get; set; }
         public async Task<IActionResult> OnGetAsync(long id)
         {
-            GetByIdTrainingCategoryQuery Command = new GetByIdTrainingCategoryQuery(id);
-            TrainingCategory = await _mediator.Send(Command);
-            if(TrainingCategory == null)
+            GetByIdTrainingQuery Command = new GetByIdTrainingQuery(id);
+            Training = await _mediator.Send(Command);
+            if(Training == null)
             {
                 return NotFound();
             }
@@ -41,7 +42,7 @@ namespace RazorWebUI.Areas.ITrainings.Pages.TestQuestions
                 AddTrainingTestCommand Command = new AddTrainingTestCommand(TrainingTest);
                 await _mediator.Send(Command);
                 TempData["success"] = "Success";
-                return RedirectToPage("./Index", new {id = TrainingTest.CategoryId});
+                return RedirectToPage("./Index", new {id = TrainingTest.TrainingId});
             }
             catch (Exception ex)
             {

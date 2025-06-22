@@ -100,14 +100,13 @@
                                             <button type="button" class="btn btn-success dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false">
                                             </button>
                                             <div class="dropdown-menu" style="">
+                                                <a class="dropdown-item" asp-page="/Admin/RegistrationStatus" asp-area="User" asp-route-id="@item.Id" asp-route-txid="@Model.Training.Id">Registration Status</a>
 
                                                 <a class="dropdown-item" asp-page="./ParticipantTest" asp-route-id="@item.Id">Participant Test Result</a>
-                                                <a class="dropdown-item" asp-page="./Index" asp-route-id="@item.Id">Back Work Plan</a>
-                                                <a class="dropdown-item" asp-page="./Index" asp-route-id="@item.Id">Certificate</a>
+                                                 <a class="dropdown-item" asp-page="./Index" asp-route-id="@item.Id">Certificate</a>
                                                 <a class="dropdown-item" asp-page="/Admin/Update" asp-area="User" asp-route-id="@item.Id">Edit</a>
                                                 <a class="dropdown-item" asp-page="/Admin/UpdateEmail" asp-area="User" asp-route-id="@item.Id">Update Email</a>
                                                 <a class="dropdown-item" asp-page="/Admin/Reset" asp-area="User" asp-route-id="@item.Id">Reset Password</a>
-                                                <a class="dropdown-item" asp-page="/Admin/RegistrationStatus" asp-area="User" asp-route-id="@item.Id">Registration Status</a>
                                             </div>
                                         </div>
                                     </div>

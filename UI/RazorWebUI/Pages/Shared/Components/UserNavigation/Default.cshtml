@@ -38,14 +38,7 @@
     {
 
 
-        <li class="nav-item">
-            <a asp-page="/EvaluationPage/Index" asp-area="ITrainings" class="nav-link">
-                <i class="nav-icon fas fa-table"></i>
-                <p>
-                    Evaluation Questions
-                </p>
-            </a>
-        </li>
+    
         <li class="nav-item">
             <a asp-page="/Admin/Index" asp-area="Certificates" class="nav-link">
                 <i class="nav-icon fas fa-book"></i>
@@ -131,25 +124,33 @@
         <a href="#" class="nav-link">
             <i class="nav-icon fas fa-th"></i>
             <p>
-                Awareness Campaign
+                Emails Manager
                 <i class="right fas fa-angle-left"></i>
             </p>
         </a>
         <ul class="nav nav-treeview">
 
             <li class="nav-item">
-                <a asp-page="/Category/Index" asp-area="SMS" class="nav-link">
+                <a asp-page="/Manager/Index" asp-area="EmailServiceManager" class="nav-link">
                     <i class="nav-icon fas fa-circle nav-icon"></i>
                     <p class="uppercase">
-                        SMS Manager
+                        Delivery Report
                     </p>
                 </a>
             </li>
             <li class="nav-item">
-                <a asp-page="/SenderIdPage/Index" asp-area="SMS" class="nav-link">
+                <a asp-page="/MailTask/Index" asp-area="EmailServiceManager" class="nav-link">
                     <i class="nav-icon fas fa-circle nav-icon"></i>
                     <p class="uppercase">
-                        Emails Manager
+                        Email Task
+                    </p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a asp-page="/ManageServer/ListServers" asp-area="EmailServiceManager" class="nav-link">
+                    <i class="nav-icon fas fa-circle nav-icon"></i>
+                    <p class="uppercase">
+                        Server
                     </p>
                 </a>
             </li>
@@ -196,14 +197,7 @@
         </a>
     </li>
 
-    <li class="nav-item">
-        <a asp-page="/Account/ReadModule" asp-area="ITrainings" class="nav-link">
-            <i class="nav-icon fas fa-table"></i>
-            <p>
-                Modules
-            </p>
-        </a>
-    </li>
+  
     <li class="nav-item">
         <a asp-page="/User/Index" asp-area="Certificates" class="nav-link">
             <i class="nav-icon fas fa-book"></i>
@@ -222,45 +216,8 @@
             </p>
         </a>
     </li>
-
-    <li class="nav-item">
-        <a asp-page="/Admin/Expenses" asp-area="ITrainings" class="nav-link">
-            <i class="nav-icon fas fa-edit"></i>
-            <p>
-                Expenses
-            </p>
-        </a>
-    </li>
-
-    <li class="nav-item">
-        <a href="#" class="nav-link">
-            <i class="nav-icon fas fa-th"></i>
-            <p>
-                Tools
-                <i class="right fas fa-angle-left"></i>
-            </p>
-        </a>
-        <ul class="nav nav-treeview">
-
-            <li class="nav-item">
-                <a asp-page="/Category/Index" asp-area="SMS" class="nav-link">
-                    <i class="nav-icon fas fa-circle nav-icon"></i>
-                    <p class="uppercase">
-                        SMS Manager
-                    </p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a asp-page="/SenderIdPage/Index" asp-area="SMS" class="nav-link">
-                    <i class="nav-icon fas fa-circle nav-icon"></i>
-                    <p class="uppercase">
-                        Emails Manager
-                    </p>
-                </a>
-            </li>
-        </ul>
-    </li>
-
+ 
+ 
 }
 
 <li class="nav-item">

@@ -20,5 +20,12 @@ namespace Domain.Models
         public long? EvaluationQuestionCategoryId {  get; set; }
         public EvaluationQuestionCategory EvaluationQuestionCategory {  get; set; }
 
+
+
+        public long? TrainingId { get; set; }
+        public Training? Training { get; set; }
+
+        public ICollection<EvaluationQuestionOption> EvaluationQuestionOptions { get; set; }
+
     }
 }

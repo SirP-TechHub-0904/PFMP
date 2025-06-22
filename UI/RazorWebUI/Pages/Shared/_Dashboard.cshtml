@@ -537,13 +537,22 @@
 
 
 
+    <!-- Full Summernote with file upload disabled -->
     <script>
         $(document).ready(function () {
-            $('.summernote').summernote();
+            $('.summernote').summernote({
+                height: 300, // optional
+                callbacks: {
+                    onImageUpload: function (files) {
+                        // Block local file uploads
+                        alert('Uploading files from your computer is disabled. Use an image URL instead.');
+                    }
+                }
+            });
         });
-
-
     </script>
+
+
     <script>
         $(document).ready(function () {
             $('.product-image-thumb').on('click', function () {

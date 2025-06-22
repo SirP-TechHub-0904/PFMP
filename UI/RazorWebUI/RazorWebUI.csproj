@@ -6,6 +6,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
 	  <AspNetCoreHostingModel>OutOfProcess</AspNetCoreHostingModel>
 	  <AspNetCoreModuleName>AspNetCoreModuleV2</AspNetCoreModuleName>
+	  <RazorCompileOnBuild>true</RazorCompileOnBuild>
+	  <RazorCompileOnPublish>true</RazorCompileOnPublish>
+
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,13 +22,12 @@
     <ProjectReference Include="..\..\src\Application\Application.csproj" />
     <ProjectReference Include="..\..\src\Domain\Domain.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Areas\Tools\Pages\" />
+	<ItemGroup>
+		<Folder Include="Areas\Tools\Pages\" />
     <Folder Include="Areas\User\Pages\Roles\" />
     <Folder Include="Services\" />
   </ItemGroup>
-
+		
   <ItemGroup>
     <None Include="Areas\Identity\Pages\Account\Locked.cshtml" />
     <None Include="Areas\ITrainings\Pages\Account\UserModulePage.cshtml" />
@@ -35,7 +37,7 @@
     <None Include="Areas\ITrainings\Pages\Admin\Participants.cshtml" />
     <None Include="Areas\ITrainings\Pages\Admin\PrintFacilitators.cshtml" />
     <None Include="Areas\ITrainings\Pages\Admin\Sponsors.cshtml" />
-    <None Include="Areas\ITrainings\Pages\Admin\Test.cshtml" />
+	  <None Include="Areas\ITrainings\Pages\Admin\Test.cshtml" /> 
     <None Include="Areas\ITrainings\Pages\Category\Info.cshtml" />
     <None Include="wwwroot\AgileVendor\bootstrap.min.js" />
     <None Include="wwwroot\AgileVendor\jquery-2.2.0.min.js" />
@@ -1699,6 +1701,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="DocumentFormat.OpenXml" Version="3.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.3">
@@ -1711,7 +1714,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.2" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.7" />
     <PackageReference Include="Rotativa.AspNetCore" Version="1.3.2" />
   </ItemGroup>
 
@@ -1731,6 +1734,21 @@
 
   <ItemGroup>
     <UpToDateCheckInput Remove="Areas\ITrainings\Pages\Admin\PrintFacilitators.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Areas\ITrainings\Pages\EvaluationPage\AddOption.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Areas\ITrainings\Pages\EvaluationPage\DeleteOption.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Areas\ITrainings\Pages\EvaluationPage\UpdateOption.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

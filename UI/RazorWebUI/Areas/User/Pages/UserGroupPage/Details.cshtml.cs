@@ -47,6 +47,11 @@ namespace RazorWebUI.Areas.User.Pages.UserGroupPage
 
             return RedirectToPage(new { id });
         }
+        public async Task<IActionResult> OnPostDeleteAllAsync(long id)
+        {
+            await _mediator.Send(new DeleteUsersFromGroupCommand(id));
+            return RedirectToPage(new { id });
+        }
 
     }
 }

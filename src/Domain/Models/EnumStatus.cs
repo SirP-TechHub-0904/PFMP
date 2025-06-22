@@ -9,6 +9,15 @@ namespace Domain.Models
 {
     public class EnumStatus
     {
+        public enum SendingStatus
+        {
+            [Description("Pending")]
+            Pending = 0,
+            Sent = 1,
+            Failed = 2,
+
+
+        }
         public enum UserStatus
         {
             [Description("Pending")]

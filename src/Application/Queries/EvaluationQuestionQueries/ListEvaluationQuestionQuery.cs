@@ -11,6 +11,12 @@ namespace Application.Queries.EvaluationQuestionQueries
 {
     public sealed class ListEvaluationQuestionQuery : IRequest<List<EvaluationQuestion>>
     {
+        public ListEvaluationQuestionQuery(long trainingId)
+        {
+            TrainingId = trainingId;
+        }
+
+        public long TrainingId { get;set;}
         public class ListEvaluationQuestionQueryHandler : IRequestHandler<ListEvaluationQuestionQuery, List<EvaluationQuestion>>
         {
             private readonly IEvaluationQuestionRepository _repository;
@@ -22,7 +28,7 @@ namespace Application.Queries.EvaluationQuestionQueries
 
             public async Task<List<EvaluationQuestion>> Handle(ListEvaluationQuestionQuery request, CancellationToken cancellationToken)
             {
-                return await _repository.GetAllListAsync();
+                return await _repository.GetAllListByTrainingIdAsync(request.TrainingId);
 
             }
         }

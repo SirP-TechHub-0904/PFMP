@@ -17,8 +17,9 @@ namespace Domain.Models
         public EvaluationAnswerType EvaluationAnswerType { get; set; }
 
 
-        public long DialyActivityId { get; set; }
-        public DialyActivity DialyActivity { get; set; }
+
+        public long? TrainingId { get; set; }
+        public Training Training { get; set; }
 
     }
 }

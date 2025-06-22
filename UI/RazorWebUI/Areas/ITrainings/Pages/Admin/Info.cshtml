@@ -54,16 +54,24 @@
                     <div class="col-md-4 m-border">
                         <a asp-page="./TrainingCertificate" asp-route-id="@Model.Training.Id" class="btn btn-success" style="width:100%;">Participant Certificate</a>
                     </div>
+                    
                     <div class="col-md-4 m-border">
-                        <a asp-page="/Index" class="btn btn-primary" style="width:100%;">Physical/Digital Designs</a>
-                    </div>
-                    <div class="col-md-4 m-border">
-                        <a asp-page="/TimetablePage/Index" asp-route-id="@Model.Training.Id" class="btn btn-danger" style="width:100%;">TimeTable</a>
+                        <a asp-page="/TimetablePage/Index" asp-route-id="@Model.Training.Id" class="btn btn-danger" style="width:100%;">Agenda</a>
                     </div>
                     <div class="col-md-4 m-border">
                         <a asp-page="/GalleryPage/Index" asp-route-id="@Model.Training.Id" class="btn btn-warning" style="width:100%;">Gallery</a>
                     </div>
+                    <div class="col-md-4 m-border">
+                        <a asp-page="/TrainingSettingsPage/Index" asp-route-id="@Model.Training.Id" class="btn btn-dark" style="width:100%;">Settings/Template</a>
+                    </div>
 
+                    <div class="col-md-4 m-border">
+                        <a asp-page="/TestQuestions/Index" asp-route-id="@Model.Training.Id" class="btn btn-warning" style="width:100%;">Pretest and Posttest Questions</a>
+                    </div>
+                    <div class="col-md-4 m-border">
+                        <a asp-page="/EvaluationPage/Index" asp-route-id="@Model.Training.Id" class="btn btn-danger" style="width:100%;">Evaluation Questions</a>
+                    </div>
+                   
                 </div>
             </div>
             <div class="card-body">

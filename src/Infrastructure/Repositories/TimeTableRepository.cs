@@ -23,10 +23,8 @@ namespace Infrastructure.Repositories
         public async Task<List<TimeTable>> GetAll(long trainingId)
         {
            var list = await _context.TimeTables
-                .Include(x=>x.Facilitator)
-                .Include(x=>x.Training)
-                .Include(x=>x.ModuleTopic).ThenInclude(x=>x.Module)
-                .Where(x=>x.TrainingId == trainingId).ToListAsync();
+                 .Include(x=>x.Training)
+                 .Where(x=>x.TrainingId == trainingId).ToListAsync();
             return list;
         }
     }

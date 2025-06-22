@@ -320,6 +320,36 @@ namespace Infrastructure.Repositories
             }
 
 
+            try
+            {
+                var data = await _context.TrainingSettings.Where(x => x.TrainingId == id).ToListAsync();
+                foreach (var entity in data)
+                {
+                    _context.TrainingSettings.Remove(entity);
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+
+            try
+            {
+                var data = await _context.TrainingImages.Where(x => x.TrainingId == id).ToListAsync();
+                foreach (var entity in data)
+                {
+                    _context.TrainingImages.Remove(entity);
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+
 
             try
             {

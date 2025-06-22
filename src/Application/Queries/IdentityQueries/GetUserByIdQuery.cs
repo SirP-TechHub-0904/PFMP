@@ -64,7 +64,8 @@ namespace Application.Queries.IdentityQueries
                 TempPass = UserDatas.TempPass,
                 SmsSent = UserDatas.SmsSent,
                 EmailSent = UserDatas.EmailSent,
-                State = UserDatas.AssignedState
+                State = UserDatas.AssignedState,
+                Surname = UserDatas.LastName
             };
 
 

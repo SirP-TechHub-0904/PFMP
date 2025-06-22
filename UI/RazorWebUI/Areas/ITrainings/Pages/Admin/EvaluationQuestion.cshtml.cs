@@ -28,12 +28,12 @@ namespace RazorWebUI.Areas.ITrainings.Pages.Admin
 
 
 
-        public List<DialyEvaluationQuestion> ListDialyEvaluationQuestion { get; set; }
+        public List<EvaluationQuestion> ListDialyEvaluationQuestion { get; set; }
         public Training Training { get; private set; }
         public DialyActivity DialyActivity { get; set; }
 
         [BindProperty]
-        public DialyEvaluationQuestion DialyEvaluationQuestion { get; set; }
+        public EvaluationQuestion DialyEvaluationQuestion { get; set; }
         public List<SelectListItem> EvaluationQuestionDropdownDto { get; set; }
         public List<SelectListItem> ModuleTopicDropdownDto { get; set; }
 
@@ -58,10 +58,10 @@ namespace RazorWebUI.Areas.ITrainings.Pages.Admin
 
 
 
-            ListDialyEvaluationQuestionQuery ListCommand = new ListDialyEvaluationQuestionQuery(DialyActivity.Id);
+            ListDialyEvaluationQuestionQuery ListCommand = new ListDialyEvaluationQuestionQuery(Training.Id);
             ListDialyEvaluationQuestion = await _mediator.Send(ListCommand);
             //
-            var questiondropdown = new ListEvaluationQuestionQuery();
+            var questiondropdown = new ListEvaluationQuestionQuery(Training.Id);
             var Listquestiondropdown = await _mediator.Send(questiondropdown);
 
             EvaluationQuestionDropdownDto = Listquestiondropdown
@@ -94,23 +94,16 @@ namespace RazorWebUI.Areas.ITrainings.Pages.Admin
 
         public async Task<IActionResult> OnPostAsync()
         {
-
-            if (ModuleTopicQuestion != null)
-            {
-                DialyEvaluationQuestion.Question = ModuleTopicQuestion;
-                DialyEvaluationQuestion.IsModuleTopic = true;
-            }
-            else if (GeneralQuestion != null)
-            {
+ 
                 DialyEvaluationQuestion.Question = GeneralQuestion;
-            }
+            
 
             try
             {
                 AddDialyEvaluationQuestionCommand Command = new AddDialyEvaluationQuestionCommand(DialyEvaluationQuestion);
                 await _mediator.Send(Command);
                 TempData["success"] = "Success";
-                return RedirectToPage("./EvaluationQuestion", new { id = DialyEvaluationQuestion.DialyActivityId });
+                return RedirectToPage("./EvaluationQuestion", new { id = DialyEvaluationQuestion.TrainingId });
             }
             catch (Exception ex)
             {
@@ -136,7 +129,7 @@ namespace RazorWebUI.Areas.ITrainings.Pages.Admin
                 {
                     TempData["error"] = "Cannot be delete. Evalution already answered by participants";
                 }
-                return RedirectToPage("./EvaluationQuestion", new { id = DialyEvaluationQuestion.DialyActivityId });
+                return RedirectToPage("./EvaluationQuestion", new { id = DialyEvaluationQuestion.TrainingId });
             }
             catch (Exception ex)
             {

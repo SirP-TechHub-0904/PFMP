@@ -3,6 +3,7 @@ using Domain.Models;
 using Infrastructure.Context;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using RazorWebUI.Background;
 using Rotativa.AspNetCore;
 
 
@@ -17,6 +18,7 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(conn
 builder.Services.AddRazorPages();
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7240/") });
 builder.Services.AddApplicationCustomServices(builder.Configuration);
+builder.Services.AddHostedService<TimerService>();
 
 
 builder.Services.AddIdentity<AppUser, AppRole>()

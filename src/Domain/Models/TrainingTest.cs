@@ -17,8 +17,8 @@ namespace Domain.Models
         public int CorrectAnswer { get; set; }
         public ICollection<TrainingTestOption> TrainingTestOptions { get; set; }
 
-        public long? CategoryId { get;set;}
-        public TrainingCategory? Category { get;set; }
+        public long? TrainingId { get;set;}
+        public Training? Training { get;set; }
 
     }
 }

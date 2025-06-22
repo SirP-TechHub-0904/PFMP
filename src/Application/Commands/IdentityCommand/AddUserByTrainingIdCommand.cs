@@ -90,29 +90,73 @@ namespace Application.Commands.IdentityCommand
             }
             else
             {
-                TrainingParticipant tmodel = new TrainingParticipant();
-                tmodel.TrainingId = request.TrainingId;
-                tmodel.UserId = request.ExistingUserId;
-                try
+
+                if (request.Role.ToLower() == "participant")
                 {
+                    var tmodel = new TrainingParticipant
+                    {
+                        TrainingId = request.TrainingId,
+                        UserId = request.ExistingUserId
+                    };
 
-                    AddTrainingParticipantCommand tcomand = new AddTrainingParticipantCommand(tmodel);
-                    await _mediator.Send(tcomand);
-
-                    //
-
-
-                    regResponse.AddedToTraining = true;
-                    regResponse.TrainingId = tmodel.TrainingId;
-                    regResponse.Success = true;
-                    regResponse.UserId = tmodel.UserId;
-                    regResponse.Role = "Participant";
-                    //id = response.UserId, rx = response.Role, txid = response.TrainingId, area="User"
+                    try
+                    {
+                        var tcommand = new AddTrainingParticipantCommand(tmodel);
+                        await _mediator.Send(tcommand);
+                        regResponse.AddedToTraining = true;
+                        regResponse.TrainingId = tmodel.TrainingId;
+                        regResponse.UserId = tmodel.UserId;
+                        regResponse.Role = "Participant";
+                    }
+                    catch (Exception) { }
                 }
-                catch (Exception ex)
+                else if (request.Role.ToLower() == "facilitator")
                 {
+                    var fmodel = new TrainingFacilitator
+                    {
+                        TrainingId = request.TrainingId,
+                        UserId = request.ExistingUserId,
+                        Position = request.RegisterDto.Position
+                    };
 
+                    try
+                    {
+                        var fcommand = new AddTrainingFacilitatorCommand(fmodel);
+                        await _mediator.Send(fcommand);
+                        regResponse.AddedToTraining = true;
+                        regResponse.TrainingId = fmodel.TrainingId;
+                        regResponse.UserId = fmodel.UserId;
+                        regResponse.Role = "Facilitator";
+                    }
+                    catch (Exception) { }
                 }
+
+                regResponse.Success = true;
+
+
+                //TrainingParticipant tmodel = new TrainingParticipant();
+                //tmodel.TrainingId = request.TrainingId;
+                //tmodel.UserId = request.ExistingUserId;
+                //try
+                //{
+
+                //    AddTrainingParticipantCommand tcomand = new AddTrainingParticipantCommand(tmodel);
+                //    await _mediator.Send(tcomand);
+
+                //    //
+
+
+                //    regResponse.AddedToTraining = true;
+                //    regResponse.TrainingId = tmodel.TrainingId;
+                //    regResponse.Success = true;
+                //    regResponse.UserId = tmodel.UserId;
+                //    regResponse.Role = "Participant";
+                //    //id = response.UserId, rx = response.Role, txid = response.TrainingId, area="User"
+                //}
+                //catch (Exception ex)
+                //{
+
+                //}
             }
             return regResponse;
 

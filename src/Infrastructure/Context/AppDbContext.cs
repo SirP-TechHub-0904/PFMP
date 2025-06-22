@@ -43,7 +43,16 @@ namespace Infrastructure.Context
 
         public DbSet<UserCategory> UserCategories { get; set; }
         public DbSet<UserCategoryGroup> UserCategoryGroups { get; set; }
+        public DbSet<TrainingImage> TrainingImages { get; set; }
+        public DbSet<TrainingSetting> TrainingSettings { get; set; }
 
+        public DbSet<EmailList> EmailLists { get; set; }
+        public DbSet<EmailProject> EmailProjects { get; set; }
+        public DbSet<EmailResponseStatus> EmailResponseStatuses { get; set; }
+        public DbSet<EmailSendingStatus> EmailSendingStatuses { get; set; }
+        public DbSet<EmailGroup> EmailGroups { get; set; }
+        public DbSet<GroupSendingProject> GroupSendingProjects { get; set; }
+        public DbSet<Server> Servers { get; set; }
 
     }
 }

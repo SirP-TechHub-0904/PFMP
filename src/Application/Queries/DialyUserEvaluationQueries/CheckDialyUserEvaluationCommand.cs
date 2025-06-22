@@ -12,13 +12,13 @@ namespace Application.Queries.DialyUserEvaluationQueries
 {
     public sealed class CheckDialyUserEvaluationCommand : IRequest<bool>
     {
-        public CheckDialyUserEvaluationCommand(long dailyId, string userId)
+        public CheckDialyUserEvaluationCommand(long trainingId, string userId)
         {
-            DialyId = dailyId;
-            UserId = userId; 
+            TrainingId = trainingId;
+            UserId = userId;
         }
 
-        public long DialyId { get; }
+        public long TrainingId { get; }
         public string UserId { get; } 
 
         // Handler
@@ -36,7 +36,7 @@ namespace Application.Queries.DialyUserEvaluationQueries
                 request.ThrowIfNull(nameof(request));
 
 
-                bool data = await _repository.CheckIfUserTookEvaluation(request.UserId, request.DialyId);
+                bool data = await _repository.CheckIfUserTookEvaluation(request.UserId, request.TrainingId);
 
                 return data;
             }

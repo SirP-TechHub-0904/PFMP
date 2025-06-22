@@ -31,18 +31,7 @@
                 <a asp-page="./TrainingStatistics" class="btn bg-gradient-warning btn-sm" style="">Training Statistics</a>
             }
         </div>
-        @if (Model.TrainingCategory != null)
-        {
-            <div class="card-body">
-                <div class="row">
-
-                    <div class="col-md-4 m-border">
-                        <a asp-page="/TestQuestions/Index" asp-route-id="@Model.TrainingCategory.Id" class="btn btn-primary" style="width:100%;">Pretest and Posttest Questions</a>
-                    </div>
-
-                </div>
-            </div>
-        }
+       
 
             <!-- /.card-header -->
             <div class="card-body">

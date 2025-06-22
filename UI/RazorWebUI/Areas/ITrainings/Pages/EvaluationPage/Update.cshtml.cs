@@ -22,7 +22,8 @@ namespace RazorWebUI.Areas.ITrainings.Pages.EvaluationPage
 
         [BindProperty]
         public EvaluationQuestion EvaluationQuestion { get; set; }
-
+        [BindProperty]
+        public Training Training { get; set; }
         public async Task<IActionResult> OnGetAsync(long id)
         {
             if (id < 0)
@@ -31,8 +32,20 @@ namespace RazorWebUI.Areas.ITrainings.Pages.EvaluationPage
             }
             GetByIdEvaluationQuestionQuery Command = new GetByIdEvaluationQuestionQuery(id);
             EvaluationQuestion = await _mediator.Send(Command);
+
+
+            GetByIdTrainingQuery xCommand = new GetByIdTrainingQuery(id);
+            Training = await _mediator.Send(xCommand);
+            if (Training == null)
+            {
+                return NotFound();
+            }
             return Page();
         }
+         
+
+
+
         public async Task<IActionResult> OnPostAsync()
         {
             try
@@ -40,7 +53,7 @@ namespace RazorWebUI.Areas.ITrainings.Pages.EvaluationPage
                 UpdateEvaluationQuestionCommand Command = new UpdateEvaluationQuestionCommand(EvaluationQuestion);
                 await _mediator.Send(Command);
                 TempData["success"] = "Success";
-                return RedirectToPage("./Index");
+                return RedirectToPage("./Index", new { id = EvaluationQuestion.TrainingId });
             }
             catch (Exception ex)
             {

@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace Application.Commands.TrainingCommand
 {
-    public sealed class SendTrainingNoticeCommand : IRequest
+    public sealed class SendTrainingNoticeCommand : IRequest<bool>
     {
         public SendTrainingNoticeCommand(string? userId, long trainingId, string? title, string? position)
         {
@@ -32,38 +32,49 @@ namespace Application.Commands.TrainingCommand
 
     }
 
-    public class SendTrainingNoticeCommandHandler : IRequestHandler<SendTrainingNoticeCommand>
+    public class SendTrainingNoticeCommandHandler : IRequestHandler<SendTrainingNoticeCommand, bool>
     {
         private readonly ITrainingRepository _trainingRepository;
+        private readonly ITrainingSettingRepository _trainingsettings;
         private readonly IMediator _mediator;
 
-        public SendTrainingNoticeCommandHandler(ITrainingRepository trainingRepository, IMediator mediator)
+        public SendTrainingNoticeCommandHandler(ITrainingRepository trainingRepository, IMediator mediator, ITrainingSettingRepository trainingsettings)
         {
             _trainingRepository = trainingRepository;
             _mediator = mediator;
+            _trainingsettings = trainingsettings;
         }
 
-        public async Task Handle(SendTrainingNoticeCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(SendTrainingNoticeCommand request, CancellationToken cancellationToken)
         {
-
+           
             try
             {
 
+
                 var getTraining = await _trainingRepository.GetByIdAsync(request.TrainingId);
-
-                string messagedetails = $"<h4>{getTraining.Title}</h4> <br><br>" +
-                    $"You have been selected to attend the Nutrition Budget Tagging Refresher Workshop {request.Title} at <b>{getTraining.Address} from {getTraining.StartDate.ToString("dd MMM, yyyy")} to {getTraining.EndDate.ToString("dd MMM, yyyy")}. </b>" +
-                    $"To participate, kindly complete your registration with the login details provided below:\r\n<br><br>";
-
-
-                GetUserByIdQuery getUser = new GetUserByIdQuery(request.UserId);
-                var userdata = await _mediator.Send(getUser);
-
-
-
-                try
+                if (getTraining != null)
                 {
+                    var setting = await _trainingsettings.GetAll(request.TrainingId);
 
+                    string template = "";
+
+                    if (setting.FirstOrDefault() != null)
+                    {
+                        template = setting.FirstOrDefault().Template;
+
+                    }
+
+                    GetUserByIdQuery getUser = new GetUserByIdQuery(request.UserId);
+                    var userdata = await _mediator.Send(getUser);
+
+                    //try
+                    //{
+                    //    SendSmsCommand smscommand = new SendSmsCommand(userdata.PhoneNumber, "Kindly check your email to complete your registration.");
+                    //    var smsresponse = await _mediator.Send(smscommand);
+
+                    //}
+                    //catch (Exception c) { }
 
 
                     string baseUrl = "https://fmbepnutrition.ng/"; // replace with your application base URL
@@ -78,38 +89,47 @@ namespace Application.Commands.TrainingCommand
 
                     string messagedetails2 = $"Login Email: {userdata.Email} <br>Temporal Password: {userdata.TempPass}<br>" +
                         $"" + datavalue + "or copy the link before and paste in your browser to continue<br><br>" +
-                        linkcomplete + "<br>" + 
+                        linkcomplete + "<br>" +
 
-                        $"<h6>Instruction: Kindly login with the temporal password, reset your password and update your profile.</h6>" +
-                        $"<h4>Kindly note that this training is organized by the Nutrition department of the federal ministry of health and social welfare</h4>"
-                        
-                        ;
+                        $"<h6>Instruction: Kindly login with the temporal password, reset your password and update your profile.</h6>";
 
+                    if (userdata.ResetPassword == false)
+                    {
+                        messagedetails2 = "";
+                    }
+
+                    template = template.Replace("{logininformation}", messagedetails2);
+                    template = template.Replace("{fullname}", userdata.FullnameX);
+                    template = template.Replace("{surname}", userdata.Surname);
+
+                    string subject = setting.FirstOrDefault().Subject ?? "";
                     //send email
                     MessageDto msn = new MessageDto();
                     msn.Email = userdata.Email;
-                    msn.Message = messagedetails + messagedetails2;
-                    msn.Subject = "NUTRITION BUDGET TAGGING REFRESHER WORKSHOP";
+                    msn.Message = template;
+                    msn.Subject = subject;
                     msn.Name = userdata.FullnameX;
                     SendMessageCommand emailcommand = new SendMessageCommand(msn);
                     PostmarkResponse responseemail = await _mediator.Send(emailcommand);
-                }
-                catch (Exception e)
-                {
+
+                    if (responseemail.Status == PostmarkStatus.Success)
+                    {
+                        return true;
+                    }
+
+                    return false;
+
+                    
 
                 }
-                try
-                {
-                    SendSmsCommand smscommand = new SendSmsCommand(userdata.PhoneNumber, "Kindly check your email to complete your registration.");
-                    var smsresponse = await _mediator.Send(smscommand);
-
-                }
-                catch (Exception c) { }
-
             }
-            catch (Exception ex) { }
+            catch (Exception ex)
+            {
 
+                return false;
+            }
 
+            return false;
         }
     }
 }
