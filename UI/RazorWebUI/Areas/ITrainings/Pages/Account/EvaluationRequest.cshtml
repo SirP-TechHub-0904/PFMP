@@ -1,0 +1,56 @@
+﻿@page
+@model RazorWebUI.Areas.ITrainings.Pages.Account.EvaluationRequestModel
+@{
+} 
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">DAILY EVALUATION</h5>
+            </div>
+
+            <div class="card-body">
+                @if (Model.TrainingsWithTodayActivity != null && Model.TrainingsWithTodayActivity.Any())
+                {
+                    foreach (var training in Model.TrainingsWithTodayActivity)
+                    {
+                        <div class="secdaiv mb-3">
+                            <h6 style="font-weight:bold;">@training.TrainingTitle</h6>
+                            <p>
+                                @training.TrainingDate
+                                <br />
+                                <span class="text-muted">@training.TrainingState - @training.TrainingLGA</span>
+                            </p>
+
+                            <hr />
+
+                            @if (training.DailyActivityDto != null && training.DailyActivityDto.Any())
+                            {
+                                foreach (var activity in training.DailyActivityDto)
+                                {
+                                    <p><strong>Activity:</strong> @activity.Title (@activity.Date.ToString("ddd dd MMM, yyyy"))</p>
+
+                                    <a asp-page="./Evaluation"
+                                       asp-route-id="@activity.Id" 
+                                       class="btn btn-success btn-sm">
+                                        Start Evaluation
+                                    </a>
+                                }
+                            }
+                            else
+                            {
+                                <p class="text-danger">No evaluation available yet.</p>
+                                <button class="btn btn-secondary btn-sm" disabled>No Evaluation</button>
+                            }
+                        </div>
+                    }
+                }
+                else
+                {
+                    <p class="text-muted">No trainings found.</p>
+                }
+            </div>
+        </div>
+    </div>
+</div>

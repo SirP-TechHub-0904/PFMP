@@ -3,6 +3,7 @@ using Application.Queries.DialyUserEvaluationQueries;
 using Application.Queries.IdentityQueries;
 using Application.Queries.TrainingQueries;
 using Application.Queries.UserTestQueries;
+using DocumentFormat.OpenXml.Office2010.Excel;
 using Domain.DTOs;
 using Domain.Models;
 using MediatR;
@@ -31,7 +32,7 @@ namespace RazorWebUI.Areas.ITrainings.Pages.Account
         public DialyActivity DialyActivity { get; set; }
 
         public BasicProfileDto BasicProfileDto { get; set; }
-        public async Task<IActionResult> OnGetAsync(string userId, long tid)
+        public async Task<IActionResult> OnGetAsync(string userId, long tid, long did)
         {
             
             if (userId == null)
@@ -43,7 +44,7 @@ namespace RazorWebUI.Areas.ITrainings.Pages.Account
                 GetUserByIdQuery userCommand = new GetUserByIdQuery(userId);
                 BasicProfileDto = await _mediator.Send(userCommand);
             }
-            DialyUserEvaluationResultQuery Command = new DialyUserEvaluationResultQuery(tid, userId);
+            DialyUserEvaluationResultQuery Command = new DialyUserEvaluationResultQuery(did, userId);
             DialyUserEvaluationResultDto = await _mediator.Send(Command);
 
             if (DialyUserEvaluationResultDto != null)
@@ -62,6 +63,10 @@ namespace RazorWebUI.Areas.ITrainings.Pages.Account
 
             GetByIdTrainingQuery xCommand = new GetByIdTrainingQuery(tid);
             Training = await _mediator.Send(xCommand);
+
+            var query = new GetByIdDialyActivityQuery(did);
+            DialyActivity = await _mediator.Send(query);
+
             return Page();
         }
     }

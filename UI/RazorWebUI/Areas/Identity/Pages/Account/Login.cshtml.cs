@@ -164,7 +164,11 @@ namespace RazorWebUI.Areas.Identity.Pages.Account
 
                     user.LastLogin = DateTime.UtcNow.AddHours(1).ToString();
                     await _userManager.UpdateAsync(user);
-
+                    if (!string.IsNullOrEmpty(returnUrl) &&
+               returnUrl.Contains("/itrainings/account/evaluationrequest", StringComparison.OrdinalIgnoreCase))
+                    {
+                        return LocalRedirect(returnUrl);
+                    }
                     if (user.ResetPassword == true)
                     {
                         return RedirectToPage("/Account/Manage/ChangePassword", new { area = "Identity" });

@@ -13,8 +13,8 @@ namespace Domain.Models
         public EvaluationQuestion EvaluationQuestion { get; set; }
         public string? UserId { get; set; }
         public AppUser User { get; set; }
-        public long? TrainingId { get; set; }
-        public Training Training { get; set; }
+        public long? DialyActivityId { get; set; }
+        public DialyActivity? DialyActivity { get; set; }
 
         public string? Answer { get; set; }
         public bool Submitted { get; set; }

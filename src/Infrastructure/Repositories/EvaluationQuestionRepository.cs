@@ -37,7 +37,7 @@ namespace Infrastructure.Repositories
                 var list = await _context.EvaluationQuestions
                     .Include(x => x.EvaluationQuestionCategory)
                     .Include(x => x.EvaluationQuestionOptions)
-                    .Where(x => x.TrainingId == id).ToListAsync();
+                    .Where(x => x.TrainingId == id && x.Publish).ToListAsync();
                 return list;
 
             }
@@ -46,6 +46,15 @@ namespace Infrastructure.Repositories
                 
                 return null;
             }
+        }
+
+        public async Task<EvaluationQuestion> GetQuestionByIdAsync(long id)
+        {
+            var data = await _context.EvaluationQuestions
+                   .Include(x => x.EvaluationQuestionCategory)
+                   .Include(x => x.EvaluationQuestionOptions)
+                   .FirstOrDefaultAsync(x => x.Id == id);
+            return data;
         }
     }
 }

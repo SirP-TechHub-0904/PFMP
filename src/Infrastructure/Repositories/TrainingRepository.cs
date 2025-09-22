@@ -20,6 +20,8 @@ namespace Infrastructure.Repositories
         {
             _context = context;
         }
+
+
         public async Task<IQueryable<Training>> GetAllTrainingWithDetails()
         {
             var trainings = _context.Trainings

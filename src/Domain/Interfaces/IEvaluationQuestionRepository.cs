@@ -12,6 +12,7 @@ namespace Domain.Interfaces
     {
         Task<List<EvaluationQuestion>> GetAllListAsync();
         Task<List<EvaluationQuestion>> GetAllListByTrainingIdAsync(long id);
+        Task<EvaluationQuestion> GetQuestionByIdAsync(long id);
 
     }
 }

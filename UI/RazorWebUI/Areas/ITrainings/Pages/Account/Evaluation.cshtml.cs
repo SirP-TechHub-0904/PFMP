@@ -28,7 +28,7 @@ namespace RazorWebUI.Areas.ITrainings.Pages.Account
             _mediator = mediator;
         }
 
-        public IEnumerable<EvaluationQuestion> Datas { get; private set; }
+        public IEnumerable<DialyEvaluationQuestion> Datas { get; private set; }
         public Training Training { get; set; }
          
         public DialyActivity DialyActivity { get; set; }
@@ -47,18 +47,21 @@ namespace RazorWebUI.Areas.ITrainings.Pages.Account
 
           var listquestionforactivity = new  ListDialyEvaluationQuestionQuery(id);
             Datas = await _mediator.Send(listquestionforactivity);
-             
 
-            var gettraining = new GetByIdTrainingQuery(id);
+            var query = new GetByIdDialyActivityQuery(id);
+            DialyActivity = await _mediator.Send(query);
+
+
+            var gettraining = new GetByIdTrainingQuery(DialyActivity.TrainingId);
             Training = await _mediator.Send(gettraining);
             //check
             
-            var checkeval = new CheckDialyUserEvaluationCommand(Training.Id, userId);
+            var checkeval = new CheckDialyUserEvaluationCommand(DialyActivity.Id, userId);
             bool check = await _mediator.Send(checkeval);
             if (check)
             {
-                TempData["error"] = "Evaluation Already Taken";
-                return RedirectToPage("EvaluationResult", new { userId = userId, tid = Training.Id });
+                TempData["success"] = "Evaluation Already Taken";
+                return RedirectToPage("EvaluationResult", new { userId = userId, did = DialyActivity.Id, tid = DialyActivity.TrainingId });
             }
             return Page();
         }
@@ -66,11 +69,11 @@ namespace RazorWebUI.Areas.ITrainings.Pages.Account
         public async Task<IActionResult> OnPostAsync()
         {
             StringBuilder formInfo = new StringBuilder();
-            var eveluationData = new List<(long questionId, string answer, string userId, long trainingId)>();
+            var eveluationData = new List<(long questionId, string answer, string userId, long dialyId)>();
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             //check
-            var checkeval = new CheckDialyUserEvaluationCommand(TrainingId, userId);
+            var checkeval = new CheckDialyUserEvaluationCommand(DialyId, userId);
             bool check = await _mediator.Send(checkeval);
             if(check) {
                 TempData["error"] = "Evaluation Already Taken";
@@ -87,7 +90,7 @@ namespace RazorWebUI.Areas.ITrainings.Pages.Account
                 {
                     if (long.TryParse(key.Substring("answer_".Length), out long questionId) && !string.IsNullOrWhiteSpace(value))
                     {
-                        eveluationData.Add((questionId, value, userId, TrainingId));
+                        eveluationData.Add((questionId, value, userId, DialyId));
                     }
                     else
                     {

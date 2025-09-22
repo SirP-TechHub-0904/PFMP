@@ -38,7 +38,7 @@ namespace Infrastructure.Repositories
         {
             var userTests = await _context.UserTests
                 .Include(x => x.User)
-                .Include(x => x.TrainingTest)
+                .Include(x => x.TrainingTest).ThenInclude(x=> x.TrainingTestOptions)
                 .Where(x => x.TrainingId == trainingId && x.Submitted)
                 .ToListAsync();
 
@@ -78,6 +78,9 @@ namespace Infrastructure.Repositories
                     var correctPostAnswers = postTests.Count(x => x.Answer != null
                        && x.TrainingTest?.TrainingTestOptions != null
                        && x.TrainingTest.TrainingTestOptions.Any(opt => opt.CorrectAnswer == true && opt.Id == x.Answer));
+                    //&& x.TrainingTest.TrainingTestOptions.Any(opt => opt.CorrectAnswer == true));
+
+
                     double _postTestScore = (double)correctPostAnswers / postTests.Count * 100;
 
                      postTestScore = $"{_postTestScore:F0}%";

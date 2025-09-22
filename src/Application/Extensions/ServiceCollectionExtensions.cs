@@ -74,6 +74,7 @@ namespace Application.Extensions
             services.AddTransient<ITrainingSettingRepository, TrainingSettingRepository>();
             services.AddTransient<ITrainingImageRepository, TrainingImageRepository>();
             services.AddTransient<IEvaluationQuestionOptionRepository, EvaluationQuestionOptionRepository>();
+            services.AddTransient<IDialyEvaluationQuestionOptionRepository, DialyEvaluationQuestionOptionRepository>();
 
             services.Configure<IdentityOptions>(options =>
             {

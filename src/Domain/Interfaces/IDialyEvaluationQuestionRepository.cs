@@ -10,6 +10,6 @@ namespace Domain.Interfaces
 {
     public interface IDialyEvaluationQuestionRepository : IRepository<DialyEvaluationQuestion>
     {
-        Task<List<EvaluationQuestion>> GetAllByDialyActivity(long trainingId);
+        Task<List<DialyEvaluationQuestion>> GetAllByDialyActivity(long trainingId);
     }
 }

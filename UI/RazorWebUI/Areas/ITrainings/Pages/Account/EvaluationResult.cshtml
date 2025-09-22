@@ -6,7 +6,7 @@
     <div class="card-header">
         <div class="card-header">
             <h3 class="card-title">
-                 EVALUTION RESULT
+                EVALUTION RESULT
             </h3>
             <a asp-page="./Info" asp-route-id="@Model.Training.Id" class="btn bg-gradient-warning btn-sm" style="float:right;">Back</a>
 
@@ -18,9 +18,24 @@
                 @Model.Training.EndDate.ToString("ddd dd MMM, yyyy"))
             </h3>
         </div>
-        
+        <div class="card-body">
+            <h5 class="text-uppercase">Dialy Activity Information</h5>
+            <h5 class="">
+                Date:  @Model.DialyActivity.Date.ToString("dddd dd/MM/yyyy") (@Model.DialyActivity.StartTime - @Model.DialyActivity.FinishTime))
+                <br />Title: @Model.DialyActivity.Title
+            </h5>
+        </div>
 
-        
+        <hr />
+        <div class="card-body">
+            <h5 class="text-uppercase">Participant Information</h5>
+            <h5 class="">
+                @Model.BasicProfileDto.FullnameX (@Model.BasicProfileDto.Email)
+                 
+            </h5>
+        </div>
+         
+
     </div>
 
 

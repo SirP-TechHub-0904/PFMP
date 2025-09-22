@@ -9,33 +9,33 @@ using System.Threading.Tasks;
 
 namespace Application.Commands.DialyEvaluationQuestionCommand
 {
-    public sealed class AddDialyEvaluationQuestionCommand : IRequest
+    public sealed class AddDialyEvaluationQuestionCommand : IRequest<long>
     {
-        public AddDialyEvaluationQuestionCommand(EvaluationQuestion certificate)
+        public AddDialyEvaluationQuestionCommand(DialyEvaluationQuestion dialyEvaluationQuestion)
         {
-            DialyEvaluationQuestion = certificate;
+            DialyEvaluationQuestion = dialyEvaluationQuestion;
         }
 
-        public EvaluationQuestion DialyEvaluationQuestion { get; set; }
+        public DialyEvaluationQuestion DialyEvaluationQuestion { get; set; }
 
 
     }
 
-    public class AddDialyEvaluationQuestionCommandHandler : IRequestHandler<AddDialyEvaluationQuestionCommand>
+    public class AddDialyEvaluationQuestionCommandHandler : IRequestHandler<AddDialyEvaluationQuestionCommand, long>
     {
-        private readonly IEvaluationQuestionRepository _certificateRepository;
+        private readonly IDialyEvaluationQuestionRepository _dialyEvaluationQuestionRepository;
 
-        public AddDialyEvaluationQuestionCommandHandler(IEvaluationQuestionRepository certificateRepository)
+        public AddDialyEvaluationQuestionCommandHandler(IDialyEvaluationQuestionRepository dialyEvaluationQuestionRepository)
         {
-            _certificateRepository = certificateRepository;
+            _dialyEvaluationQuestionRepository = dialyEvaluationQuestionRepository;
         }
 
-        public async Task Handle(AddDialyEvaluationQuestionCommand request, CancellationToken cancellationToken)
+        public async Task<long> Handle(AddDialyEvaluationQuestionCommand request, CancellationToken cancellationToken)
         {
 
-            await _certificateRepository.AddAsync(request.DialyEvaluationQuestion);
+            await _dialyEvaluationQuestionRepository.AddAsync(request.DialyEvaluationQuestion);
 
-
+            return request.DialyEvaluationQuestion.Id;
         }
     }
 }

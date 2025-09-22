@@ -1,4 +1,5 @@
 using Application.Commands.DialyEvaluationQuestionCommand;
+using Application.Commands.DialyEvaluationQuestionOptionCommand;
 using Application.Commands.TrainingCommand;
 using Application.Queries.CertificationQueries;
 using Application.Queries.DialyActivityQueries;
@@ -28,12 +29,12 @@ namespace RazorWebUI.Areas.ITrainings.Pages.Admin
 
 
 
-        public List<EvaluationQuestion> ListDialyEvaluationQuestion { get; set; }
+        public List<DialyEvaluationQuestion> ListDialyEvaluationQuestion { get; set; }
         public Training Training { get; private set; }
         public DialyActivity DialyActivity { get; set; }
 
         [BindProperty]
-        public EvaluationQuestion DialyEvaluationQuestion { get; set; }
+        public DialyEvaluationQuestion DialyEvaluationQuestion { get; set; }
         public List<SelectListItem> EvaluationQuestionDropdownDto { get; set; }
         public List<SelectListItem> ModuleTopicDropdownDto { get; set; }
 
@@ -42,6 +43,10 @@ namespace RazorWebUI.Areas.ITrainings.Pages.Admin
         public string? GeneralQuestion { get; set; }
         [BindProperty]
         public string? ModuleTopicQuestion { get; set; }
+
+        [BindProperty]
+        public long QuestionId { get;set;}
+
         public async Task<IActionResult> OnGetAsync(long id)
         {
             if (id < 0)
@@ -58,7 +63,7 @@ namespace RazorWebUI.Areas.ITrainings.Pages.Admin
 
 
 
-            ListDialyEvaluationQuestionQuery ListCommand = new ListDialyEvaluationQuestionQuery(Training.Id);
+            ListDialyEvaluationQuestionQuery ListCommand = new ListDialyEvaluationQuestionQuery(DialyActivity.Id);
             ListDialyEvaluationQuestion = await _mediator.Send(ListCommand);
             //
             var questiondropdown = new ListEvaluationQuestionQuery(Training.Id);
@@ -67,43 +72,58 @@ namespace RazorWebUI.Areas.ITrainings.Pages.Admin
             EvaluationQuestionDropdownDto = Listquestiondropdown
             .Select(eq => new SelectListItem
             {
-                Value = eq.Question.ToString(),
+                Value = eq.Id.ToString(),
                 Text = eq.Question
             }).ToList();
             //
-            var moduletopics = new ListModuleTopicQuery();
-            var listmoduletopics = await _mediator.Send(moduletopics);
+            //var moduletopics = new ListModuleTopicQuery();
+            //var listmoduletopics = await _mediator.Send(moduletopics);
 
-            listmoduletopics.Where(x=>x.Module != null).ToList();
-            listmoduletopics.Where(x =>x.Module.Title != null).ToList();
-
-
+            //listmoduletopics.Where(x=>x.Module != null).ToList();
+            //listmoduletopics.Where(x =>x.Module.Title != null).ToList();
 
 
-            ModuleTopicDropdownDto = listmoduletopics
-                .Where(eq => eq != null && eq.Title != null && eq.Module != null && eq.Module.Title != null)
 
-            .Select(eq => new SelectListItem
-            {
-                Value = $"{eq.Title} ({eq.Module.Title})",
-                Text = $"{eq.Title} ({eq.Module.Title})"
-            }).ToList();
+
+            //ModuleTopicDropdownDto = listmoduletopics
+            //    .Where(eq => eq != null && eq.Title != null && eq.Module != null && eq.Module.Title != null)
+
+            //.Select(eq => new SelectListItem
+            //{
+            //    Value = $"{eq.Title} ({eq.Module.Title})",
+            //    Text = $"{eq.Title} ({eq.Module.Title})"
+            //}).ToList();
 
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
- 
-                DialyEvaluationQuestion.Question = GeneralQuestion;
+            GetByIdEvaluationQuestionQuery CCommand = new GetByIdEvaluationQuestionQuery(Convert.ToInt32(GeneralQuestion));
+           var questionAndOption = await _mediator.Send(CCommand);
+
+            DialyEvaluationQuestion.Question = questionAndOption.Question;
             
 
             try
             {
                 AddDialyEvaluationQuestionCommand Command = new AddDialyEvaluationQuestionCommand(DialyEvaluationQuestion);
-                await _mediator.Send(Command);
+              var id =  await _mediator.Send(Command);
+
+                //add options
+
+                foreach(var listoption in questionAndOption.EvaluationQuestionOptions)
+                {
+                    DialyEvaluationQuestionOption newoption = new DialyEvaluationQuestionOption();
+                    newoption.DialyEvaluationQuestionId = id;
+                    newoption.Option = listoption.Option;
+                    newoption.SortOrder = listoption.SortOrder;
+                    AddDialyEvaluationQuestionOptionCommand addDialyUserEvaluationCommand = new AddDialyEvaluationQuestionOptionCommand(newoption);
+                    await _mediator.Send(addDialyUserEvaluationCommand);
+                }
+
                 TempData["success"] = "Success";
-                return RedirectToPage("./EvaluationQuestion", new { id = DialyEvaluationQuestion.TrainingId });
+                return RedirectToPage("./EvaluationQuestion", new { id = DialyEvaluationQuestion.DialyActivityId });
             }
             catch (Exception ex)
             {
@@ -129,7 +149,7 @@ namespace RazorWebUI.Areas.ITrainings.Pages.Admin
                 {
                     TempData["error"] = "Cannot be delete. Evalution already answered by participants";
                 }
-                return RedirectToPage("./EvaluationQuestion", new { id = DialyEvaluationQuestion.TrainingId });
+                return RedirectToPage("./EvaluationQuestion", new { id = DialyEvaluationQuestion.DialyActivityId });
             }
             catch (Exception ex)
             {

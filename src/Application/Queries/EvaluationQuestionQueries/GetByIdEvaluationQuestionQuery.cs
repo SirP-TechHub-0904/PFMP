@@ -34,7 +34,7 @@ namespace Application.Queries.EvaluationQuestionQueries
                 request.ThrowIfNull(nameof(request));
 
 
-                EvaluationQuestion data = await _repository.GetByIdAsync(request.Id);
+                EvaluationQuestion data = await _repository.GetQuestionByIdAsync(request.Id);
 
                 return data;
             }

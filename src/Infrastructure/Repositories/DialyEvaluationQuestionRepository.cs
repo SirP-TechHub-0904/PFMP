@@ -20,11 +20,11 @@ namespace Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<List<EvaluationQuestion>> GetAllByDialyActivity(long trainingId)
+        public async Task<List<DialyEvaluationQuestion>> GetAllByDialyActivity(long trainingId)
         {
-            var list = await _context.EvaluationQuestions
-                .Include(x=>x.EvaluationQuestionOptions)
-                .Where(x=>x.TrainingId == trainingId).ToListAsync();
+            var list = await _context.DialyEvaluationQuestions
+                .Include(x=>x.DialyEvaluationQuestionOptions)
+                .Where(x=>x.DialyActivityId == trainingId).ToListAsync();
             return list;
         }
     }

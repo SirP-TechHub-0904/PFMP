@@ -54,7 +54,7 @@
                     <div class="col-md-4 m-border">
                         <a asp-page="./TrainingCertificate" asp-route-id="@Model.Training.Id" class="btn btn-success" style="width:100%;">Participant Certificate</a>
                     </div>
-                    
+
                     <div class="col-md-4 m-border">
                         <a asp-page="/TimetablePage/Index" asp-route-id="@Model.Training.Id" class="btn btn-danger" style="width:100%;">Agenda</a>
                     </div>
@@ -71,7 +71,9 @@
                     <div class="col-md-4 m-border">
                         <a asp-page="/EvaluationPage/Index" asp-route-id="@Model.Training.Id" class="btn btn-danger" style="width:100%;">Evaluation Questions</a>
                     </div>
-                   
+                    <div class="col-md-4 m-border">
+                        <a asp-page="./EvaluationBarcode/" class="btn btn-danger" style="width:100%;">Evaluation Barcode</a>
+                    </div>
                 </div>
             </div>
             <div class="card-body">

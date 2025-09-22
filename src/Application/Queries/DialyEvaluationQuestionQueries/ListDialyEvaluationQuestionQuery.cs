@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Application.Queries.CertificationQueries
 {
-    public sealed class ListDialyEvaluationQuestionQuery : IRequest<List<EvaluationQuestion>>
+    public sealed class ListDialyEvaluationQuestionQuery : IRequest<List<DialyEvaluationQuestion>>
     {
 
         public long DialyActivityId { get; set; }
@@ -19,7 +19,7 @@ namespace Application.Queries.CertificationQueries
             DialyActivityId = dailyActivityId;
         }
 
-        public class ListDialyEvaluationQuestionQueryHandler : IRequestHandler<ListDialyEvaluationQuestionQuery, List<EvaluationQuestion>>
+        public class ListDialyEvaluationQuestionQueryHandler : IRequestHandler<ListDialyEvaluationQuestionQuery, List<DialyEvaluationQuestion>>
         {
             private readonly IDialyEvaluationQuestionRepository _repository;
 
@@ -28,7 +28,7 @@ namespace Application.Queries.CertificationQueries
                 _repository = repository;
             }
 
-            public async Task<List<EvaluationQuestion>> Handle(ListDialyEvaluationQuestionQuery request, CancellationToken cancellationToken)
+            public async Task<List<DialyEvaluationQuestion>> Handle(ListDialyEvaluationQuestionQuery request, CancellationToken cancellationToken)
             {
                 return await _repository.GetAllByDialyActivity(request.DialyActivityId);
 

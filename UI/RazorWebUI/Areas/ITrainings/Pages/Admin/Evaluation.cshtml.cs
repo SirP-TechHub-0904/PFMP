@@ -40,7 +40,7 @@ namespace RazorWebUI.Areas.ITrainings.Pages.Admin
             ListDialyUserEvaluationQuery Command = new ListDialyUserEvaluationQuery(aid);
             DialyUserEvaluation = await _mediator.Send(Command);
 
-            DialyUserEvaluation = DialyUserEvaluation.Where(x=>x.TrainingId == id).ToList();
+            DialyUserEvaluation = DialyUserEvaluation.Where(x=>x.DialyActivityId == aid).ToList();
             GetByIdTrainingQuery TCommand = new GetByIdTrainingQuery(id);
             Training = await _mediator.Send(TCommand);
             return Page();

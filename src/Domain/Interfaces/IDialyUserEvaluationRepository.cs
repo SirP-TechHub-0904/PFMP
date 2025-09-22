@@ -15,7 +15,7 @@ namespace Domain.Interfaces
         Task<bool> CheckIfUserTookEvaluation(string userid, long dailyId);
         Task<bool> CheckIfEvaluationHasBeenTaken(long eveluationQuestionId);
 
-        Task DialyUserEvaluationSubmit(List<(long questionId, string answer, string userId, long trainingId)> evaluationData);
+        Task DialyUserEvaluationSubmit(List<(long questionId, string answer, string userId, long dialyActivityId)> evaluationData);
 
         Task<DialyUserEvaluationResultDto> DialyUserEvaluationResult(long dailyId, string userId);
 

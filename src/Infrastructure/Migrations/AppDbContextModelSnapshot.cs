@@ -355,6 +355,9 @@ namespace Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
+                    b.Property<long>("DialyActivityId")
+                        .HasColumnType("bigint");
+
                     b.Property<int>("EvaluationAnswerType")
                         .HasColumnType("int");
 
@@ -372,9 +375,36 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("DialyActivityId");
+
                     b.HasIndex("TrainingId");
 
                     b.ToTable("DialyEvaluationQuestions");
+                });
+
+            modelBuilder.Entity("Domain.Models.DialyEvaluationQuestionOption", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<long?>("DialyEvaluationQuestionId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Option")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DialyEvaluationQuestionId");
+
+                    b.ToTable("DialyEvaluationQuestionOption");
                 });
 
             modelBuilder.Entity("Domain.Models.DialyUserEvaluation", b =>
@@ -391,23 +421,23 @@ namespace Infrastructure.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
+                    b.Property<long?>("DialyActivityId")
+                        .HasColumnType("bigint");
+
                     b.Property<long>("EvaluationQuestionId")
                         .HasColumnType("bigint");
 
                     b.Property<bool>("Submitted")
                         .HasColumnType("bit");
 
-                    b.Property<long?>("TrainingId")
-                        .HasColumnType("bigint");
-
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EvaluationQuestionId");
+                    b.HasIndex("DialyActivityId");
 
-                    b.HasIndex("TrainingId");
+                    b.HasIndex("EvaluationQuestionId");
 
                     b.HasIndex("UserId");
 
@@ -1686,18 +1716,9 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.Models.DialyEvaluationQuestion", b =>
                 {
-                    b.HasOne("Domain.Models.Training", "Training")
+                    b.HasOne("Domain.Models.DialyActivity", "DialyActivity")
                         .WithMany()
-                        .HasForeignKey("TrainingId");
-
-                    b.Navigation("Training");
-                });
-
-            modelBuilder.Entity("Domain.Models.DialyUserEvaluation", b =>
-                {
-                    b.HasOne("Domain.Models.EvaluationQuestion", "EvaluationQuestion")
-                        .WithMany()
-                        .HasForeignKey("EvaluationQuestionId")
+                        .HasForeignKey("DialyActivityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1705,13 +1726,39 @@ namespace Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("TrainingId");
 
+                    b.Navigation("DialyActivity");
+
+                    b.Navigation("Training");
+                });
+
+            modelBuilder.Entity("Domain.Models.DialyEvaluationQuestionOption", b =>
+                {
+                    b.HasOne("Domain.Models.DialyEvaluationQuestion", "DialyEvaluationQuestion")
+                        .WithMany("DialyEvaluationQuestionOptions")
+                        .HasForeignKey("DialyEvaluationQuestionId");
+
+                    b.Navigation("DialyEvaluationQuestion");
+                });
+
+            modelBuilder.Entity("Domain.Models.DialyUserEvaluation", b =>
+                {
+                    b.HasOne("Domain.Models.DialyActivity", "DialyActivity")
+                        .WithMany()
+                        .HasForeignKey("DialyActivityId");
+
+                    b.HasOne("Domain.Models.EvaluationQuestion", "EvaluationQuestion")
+                        .WithMany()
+                        .HasForeignKey("EvaluationQuestionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Domain.Models.AppUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
 
-                    b.Navigation("EvaluationQuestion");
+                    b.Navigation("DialyActivity");
 
-                    b.Navigation("Training");
+                    b.Navigation("EvaluationQuestion");
 
                     b.Navigation("User");
                 });
@@ -2103,6 +2150,11 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.Models.DialyActivity", b =>
                 {
                     b.Navigation("Attendances");
+                });
+
+            modelBuilder.Entity("Domain.Models.DialyEvaluationQuestion", b =>
+                {
+                    b.Navigation("DialyEvaluationQuestionOptions");
                 });
 
             modelBuilder.Entity("Domain.Models.EmailGroup", b =>

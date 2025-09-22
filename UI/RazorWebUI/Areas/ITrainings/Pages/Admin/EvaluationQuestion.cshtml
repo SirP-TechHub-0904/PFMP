@@ -35,7 +35,7 @@
                     <thead>
                         <tr>
                             <th>S/N</th>
-                            <th>Question</th> 
+                            <th>Question</th>
                             <th>
                                 Answer Type
                             </th>
@@ -63,8 +63,27 @@
                                     @item.Question
 
 
+                                    @if (item.EvaluationAnswerType == EnumStatus.EvaluationAnswerType.Options)
+                                    {
+                                        <ul style="list-style-type:lower-roman;">
+                                            <span class="btn btn-warning btn-xs">Options</span>
+
+
+                                            @foreach (var list in item.DialyEvaluationQuestionOptions.OrderBy(x => x.SortOrder))
+                                            {
+                                                <li>@list.Option</li>
+                                            }
+
+                                        </ul>
+                                    }
+                                    else
+                                    {
+                                        <span class="btn btn-warning btn-xs">Text Editor</span>
+
+                                    }
+
                                 </td>
-                               
+
                                 <td>
                                     @Html.DisplayFor(modelItem => item.EvaluationAnswerType)
                                 </td>
@@ -104,6 +123,7 @@
                         <form method="post">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <input type="hidden" asp-for="DialyEvaluationQuestion.TrainingId" value="@Model.Training.Id" />
+                            <input type="hidden" asp-for="DialyEvaluationQuestion.DialyActivityId" value="@Model.DialyActivity.Id" />
 
                             <div class="" style="padding:5px;border:2px dashed #808080;">
 
@@ -119,22 +139,22 @@
                                     </select>
                                     <span asp-validation-for="GeneralQuestion" class="text-danger"></span>
                                 </div>
-                                <div class="form-group">
-                                    <label class="control-label">OR</label>
-                                </div>
+                                @*<div class="form-group">
+                                        <label class="control-label">OR</label>
+                                    </div>
 
 
-                                <div class="form-group">
-                                    <label asp-for="ModuleTopicQuestion" class="control-label">Module Topics</label>
-                                    <select asp-for="ModuleTopicQuestion" class="form-control">
-                                        <option value="">Choose Question</option>
-                                        @foreach (var question in Model.ModuleTopicDropdownDto)
-                                        {
-                                            <option value="@question.Value">@question.Text</option>
-                                        }
-                                    </select>
-                                    <span asp-validation-for="ModuleTopicQuestion" class="text-danger"></span>
-                                </div>
+                                    <div class="form-group">
+                                        <label asp-for="ModuleTopicQuestion" class="control-label">Module Topics</label>
+                                        <select asp-for="ModuleTopicQuestion" class="form-control">
+                                            <option value="">Choose Question</option>
+                                            @foreach (var question in Model.ModuleTopicDropdownDto)
+                                            {
+                                                <option value="@question.Value">@question.Text</option>
+                                            }
+                                        </select>
+                                        <span asp-validation-for="ModuleTopicQuestion" class="text-danger"></span>
+                                    </div>*@
                             </div>
                             <div class="form-group">
                                 <label asp-for="DialyEvaluationQuestion.EvaluationAnswerType" class="control-label"></label>
