@@ -185,8 +185,35 @@
             margin-right: 5px !important;
             margin-bottom: 5px;
         }
-        .dash-image{
-            height:40px;
+
+        .dash-image {
+            height: 40px;
+        }
+
+     
+        /* Show full on desktop */
+        .title-desktop {
+            display: block;
+        }
+
+        .title-mobile {
+            display: none;
+        }
+
+        /* On mobile, hide full and show short */
+        @@media (max-width: 767px) {
+            .title-desktop {
+                display: none;
+            }
+
+            .title-mobile {
+                display: block;
+                font-size:18px;
+            }
+            /* Hide back button on mobile */
+            .navbar-nav .btn.btn-danger {
+                display: none !important;
+            }
         }
     </style>
 
@@ -206,8 +233,13 @@
             <ul class="navbar-nav ml-auto">
 
                 <li class="nav-item nav-mba">
-                    <h3 style="font-weight:900;">
-                        FMBEP Nutrition DASHBOARD
+                    <!-- Desktop full title -->
+                    <h3 class="title-desktop" style="font-weight:900;">
+                        FMBEP NUTRITION DASHBOARD
+                    </h3>
+                    <!-- Mobile short title -->
+                    <h3 class="title-mobile" style="font-weight:900;">
+                        FMBEP Dashboard
                     </h3>
                 </li>
 
@@ -227,6 +259,9 @@
 
             </ul>
         </nav>
+       
+
+
         <!-- /.navbar -->
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
@@ -407,133 +442,120 @@
     <script src="~/dashboard/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
     <script src="~/dashboard/plugins/datatables-buttons/js/buttons.print.min.js"></script>
     <script src="~/dashboard/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+
+
+    <style>
+        #google_translate_element {
+            position: absolute;
+            top: 150px;
+            left: 23px; /* use left instead of right */
+            z-index: 99999;
+            cursor: move;
+        }
+
+    /* Make only the header draggable */
+    #translator_header {
+        background: #f4f4f4;
+        padding: 5px;
+        font-size: 12px;
+        font-weight: bold;
+        cursor: move;
+        text-align: center;
+    }
+
+    @@media (max-width:500px) {
+        #google_translate_element {
+            top: 120px;
+            right: 3px;
+        }
+    }
+    </style>
+
+    <div id="google_translate_element">
+        <div id="translator_header">🌍 Translate</div>
+        <!-- Google widget will render here -->
+        <div id="translator_widget"></div>
+    </div>
+
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement(
+                { pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.VERTICAL },
+                'translator_widget'
+            );
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
     <script>
-        $(function () {
-            $("#example1").DataTable({
-                "responsive": true,
-                "paging": true,
-                "lengthChange": true,
-                "searching": true,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
-                "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-                "responsive": true, "scrollX": true, "responsive": false
-            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-            $("#examplebtn").DataTable({
-                "responsive": true,
-                "paging": true,
-                "lengthChange": true,
-                "searching": true,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
-                "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-                "scrollX": true,
-                "responsive": false,
-                "buttons": ["copy", "csv", "excel", "pdf", "print"]
-            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+        function makeDraggable(el, handle) {
+            let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
 
-            $("#examplebtn2").DataTable({
-                "responsive": true,
-                "paging": true,
-                "lengthChange": true,
-                "searching": true,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
-                "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-                "scrollX": true,
-                "responsive": false,
-                "buttons": ["copy", "csv", "excel", "pdf", "print"]
-            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-            // Initialize DataTables using classes instead of IDs
-            $(".example-table").each(function () {
-                var table = $(this).DataTable({
-                    "responsive": true,
-                    "paging": true,
-                    "lengthChange": true,
-                    "searching": true,
-                    "ordering": true,
-                    "info": true,
-                    "autoWidth": false,
-                    "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-                    "scrollX": true,
-                    "responsive": false,
-                    "buttons": [
-                        {
-                            extend: 'copy',
-                            exportOptions: {
-                                columns: ':visible:not(.no-export)'
-                            }
-                        },
-                        {
-                            extend: 'csv',
-                            exportOptions: {
-                                columns: ':visible:not(.no-export)'
-                            }
-                        },
-                        {
-                            extend: 'excel',
-                            exportOptions: {
-                                columns: ':visible:not(.no-export)'
-                            }
-                        },
-                        {
-                            extend: 'pdfHtml5',
-                            exportOptions: {
-                                columns: ':visible:not(.no-export)'
-                            },
-                            orientation: 'landscape',
-                            pageSize: 'A4'
-                        },
-                        {
-                            extend: 'print',
-                            exportOptions: {
-                                columns: ':visible:not(.no-export)'
-                            }
-                        }
-                    ],
-                    "columnDefs": [
-                        {
-                            "targets": 'no-export', // class name to target the column
-                            "visible": false,
-                            "searchable": false
-                        }
-                    ]
-                });
+            // Restore saved pos
+            const savedPos = localStorage.getItem("translatorPos");
+            if (savedPos) {
+                const { top, left } = JSON.parse(savedPos);
+                el.style.top = top;
+                el.style.left = left;
+            }
 
-                // Move the buttons container to the appropriate location
-                table.buttons().container().appendTo($(this).closest('.dataTables_wrapper').find('.col-md-6:eq(0)'));
-            });
+            handle.onmousedown = dragMouseDown;
+            handle.ontouchstart = dragTouchStart;
 
+            function dragMouseDown(e) {
+                e.preventDefault();
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                document.onmouseup = closeDragElement;
+                document.onmousemove = elementDrag;
+            }
 
-            $('#example2').DataTable({
-                "paging": true,
-                "lengthChange": false,
-                "searching": false,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
-                "responsive": true,
-                "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-            });
+            function elementDrag(e) {
+                e.preventDefault();
+                let clientX = e.clientX || (e.touches && e.touches[0].clientX);
+                let clientY = e.clientY || (e.touches && e.touches[0].clientY);
 
-            $("#example3").DataTable({
-                "responsive": true,
-                "paging": true,
-                "lengthChange": true,
-                "searching": true,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
-                "lengthMenu": false,
-                "responsive": true,
-                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+                pos1 = pos3 - clientX;
+                pos2 = pos4 - clientY;
+                pos3 = clientX;
+                pos4 = clientY;
 
+                el.style.top = (el.offsetTop - pos2) + "px";
+                el.style.left = (el.offsetLeft - pos1) + "px";
+            }
+
+            function closeDragElement() {
+                document.onmouseup = null;
+                document.onmousemove = null;
+                document.ontouchend = null;
+                document.ontouchmove = null;
+
+                // Save pos
+                localStorage.setItem("translatorPos", JSON.stringify({
+                    top: el.style.top,
+                    left: el.style.left
+                }));
+            }
+
+            function dragTouchStart(e) {
+                pos3 = e.touches[0].clientX;
+                pos4 = e.touches[0].clientY;
+                document.ontouchend = closeDragElement;
+                document.ontouchmove = elementDrag;
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const el = document.getElementById("google_translate_element");
+            const header = document.getElementById("translator_header");
+            if (el && header) {
+                makeDraggable(el, header);
+            }
         });
     </script>
+
+
+
 
 
 

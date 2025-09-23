@@ -34,7 +34,7 @@ namespace RazorWebUI.Areas.ITrainings.Pages.EvaluationPage
             EvaluationQuestion = await _mediator.Send(Command);
 
 
-            GetByIdTrainingQuery xCommand = new GetByIdTrainingQuery(id);
+            GetByIdTrainingQuery xCommand = new GetByIdTrainingQuery(EvaluationQuestion.TrainingId ?? 0);
             Training = await _mediator.Send(xCommand);
             if (Training == null)
             {
