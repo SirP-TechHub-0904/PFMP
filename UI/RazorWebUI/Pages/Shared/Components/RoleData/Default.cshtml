@@ -1,6 +1,15 @@
 ﻿@model Domain.Models.AppRole
 
+@{
+    // Check if logged-in user is a SuperAdmin
+    var isSuperAdmin = User.IsInRole("SuperAdmin");
 
+    // Skip rendering if role is "SuperAdmin" and the current user is NOT a SuperAdmin
+    if (Model.Name == "SuperAdmin" && !isSuperAdmin)
+    {
+        return;
+    }
+}
 <form asp-route-id="@Model.Id" method="post" style="display:inline !important;">
 
     <input hidden="" name="UserId" value="@TempData["UserID"]" />

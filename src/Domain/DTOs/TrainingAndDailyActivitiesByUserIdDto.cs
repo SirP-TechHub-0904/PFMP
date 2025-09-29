@@ -22,6 +22,9 @@ namespace Domain.DTOs
 
 
         public ICollection<DailyActivityDto> DailyActivityDto { get; set; }
+        public bool EnablePreTest { get; set; }
+        public bool EnablePostTest { get; set; }
+        public TimeSpan PostTestStartTime { get; set; }
 
     }
 

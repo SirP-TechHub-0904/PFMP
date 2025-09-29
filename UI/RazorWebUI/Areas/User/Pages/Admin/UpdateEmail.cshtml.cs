@@ -51,25 +51,38 @@ namespace RazorWebUI.Areas.User.Pages.Admin
 
         public async Task<IActionResult> OnPostAsync()
         {
-
-
             var user = await _userManager.FindByIdAsync(UserData.Id);
             if (user == null)
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
+
             UserData = user;
+
+            // Check if the new email is already taken
             var checkemail = await _userManager.FindByEmailAsync(Input.NewEmail);
             if (checkemail == null)
             {
+                // Generate token for email change
                 var emailtoken = await _userManager.GenerateChangeEmailTokenAsync(user, Input.NewEmail);
-                var cheangeemail = await _userManager.ChangeEmailAsync(user, Input.NewEmail, emailtoken);
-                if (cheangeemail.Succeeded)
+                var changeEmailResult = await _userManager.ChangeEmailAsync(user, Input.NewEmail, emailtoken);
+
+                if (changeEmailResult.Succeeded)
                 {
-                    TempData["success"] = "Email updated successful";
+                    // Update UserName as well (since username = email in your case)
+                    user.UserName = Input.NewEmail;
+                    var updateUserNameResult = await _userManager.UpdateAsync(user);
 
-
-                    return RedirectToPage("./info", new { id = user.Id });
+                    if (updateUserNameResult.Succeeded)
+                    {
+                        TempData["success"] = "Email and Username updated successfully";
+                        return RedirectToPage("./info", new { id = user.Id });
+                    }
+                    else
+                    {
+                        TempData["error"] = "Email updated, but unable to update Username";
+                        return Page();
+                    }
                 }
 
                 TempData["error"] = "Unable to change Email";
@@ -78,13 +91,8 @@ namespace RazorWebUI.Areas.User.Pages.Admin
             else
             {
                 TempData["error"] = "Email Already Taken";
-
-
-
                 return Page();
             }
-
-
         }
     }
 

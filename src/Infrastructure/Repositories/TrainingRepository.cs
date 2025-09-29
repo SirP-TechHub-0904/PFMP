@@ -121,6 +121,9 @@ namespace Infrastructure.Repositories
                         SignInStopTime = training.SignInStopTime,
                         SignOutStartTime = training.SignOutStartTime,
                         SignOutStopTime = training.SignOutStopTime,
+                        EnablePreTest = training.EnablePreTest,
+                        EnablePostTest = training.EnablePostTest,
+                        PostTestStartTime = training.PostTestStartTime
                     });
                 }
 
@@ -145,7 +148,10 @@ namespace Infrastructure.Repositories
                         SignOutStopTime = training.SignOutStopTime,
                         TrainingLGA = training.LGA,
                         TrainingState = training.State,
-                        TrainingStatus = training.TrainingStatus
+                        TrainingStatus = training.TrainingStatus,
+                        EnablePreTest = training.EnablePreTest,
+                        EnablePostTest = training.EnablePostTest,
+                        PostTestStartTime = training.PostTestStartTime
                     });
                 }
             }

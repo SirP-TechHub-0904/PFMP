@@ -56,6 +56,8 @@ namespace Application.Queries.TrainingQueries
                     TrainingDate = training.TrainingDate.ToString("dd MMM yyyy"),
                     TrainingState = training.TrainingState,
                     TrainingLGA = training.TrainingLGA,
+                    EnablePostTest = training.EnablePostTest,
+                    EnablePreTest = training.EnablePreTest,
                     DailyActivityDto = new List<DailyActivityDto>()
                 };
 

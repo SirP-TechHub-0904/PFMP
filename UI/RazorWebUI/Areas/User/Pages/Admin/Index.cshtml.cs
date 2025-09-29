@@ -22,8 +22,22 @@ namespace RazorWebUI.Areas.User.Pages.Admin
 
         public async Task OnGetAsync()
         {
+            //var query = new GetUserListByDto();
+            //Datas = await _mediator.Send(query);
             var query = new GetUserListByDto();
-            Datas = await _mediator.Send(query);
+            var allUsers = await _mediator.Send(query);
+
+            // Check if current login user is SuperAdmin
+            bool isSuperAdmin = User.IsInRole("SuperAdmin");
+
+            // If not superadmin, remove all users that are superadmins
+            if (!isSuperAdmin)
+            {
+                allUsers = allUsers.Where(u => u.Roles == null || !u.Roles.Contains("SuperAdmin"));
+
+            }
+
+            Datas = allUsers;
         }
 
     }

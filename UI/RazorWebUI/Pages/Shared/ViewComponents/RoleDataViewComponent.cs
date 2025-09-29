@@ -21,6 +21,7 @@ namespace RazorWebUI.Pages.Shared.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync(string name, string Userid, string syle, string fullname)
         {
+            
             RoleData = await _roleManager.FindByNameAsync(name);
             TempData["UserID"] = Userid;
             TempData["style"] = syle;

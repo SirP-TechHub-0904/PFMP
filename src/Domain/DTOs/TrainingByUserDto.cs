@@ -39,5 +39,10 @@ namespace Domain.DTOs
         public TimeSpan SignOutStartTime { get; set; }
         [Display(Name = "SignOut Stop Time")]
         public TimeSpan SignOutStopTime { get; set; }
+
+        public bool EnablePreTest { get; set; }
+        public bool EnablePostTest { get; set; }
+        public TimeSpan PostTestStartTime { get; set; }
+
     }
 }
