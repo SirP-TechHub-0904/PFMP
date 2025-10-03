@@ -47,7 +47,7 @@
                 </p>
             </a>
         </li>
-         
+
         <li class="nav-item">
             <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-user-slash"></i>
@@ -255,3 +255,18 @@
 
     </ul>
 </li>
+
+@if (User.Identity.IsAuthenticated && User.IsInRole("SuperAdmin"))
+{
+
+
+
+    <li class="nav-item">
+        <a asp-page="/Admin/AdminLogs" asp-area="User" class="nav-link">
+            <i class="nav-icon fas fa-book"></i>
+            <p>
+                AdminLogs
+            </p>
+        </a>
+    </li>
+}

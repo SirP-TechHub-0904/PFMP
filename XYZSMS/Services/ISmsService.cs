@@ -13,5 +13,8 @@ namespace XYZSMS.Services
         Task<List<MessageHistoryItem>> GetMessageHistory(string username, string password);
         Task<MessageDetails> GetMessageDetails(string username, string password, int messageId);
         Task<string> ComposeMessage(string username, string password, string recipients, string senderId, string smsMessage, string smsSendOption);
+
+        Task<string> SendKudiSms(string senderId, string recipients, string message, string gateway);
+
     }
 }

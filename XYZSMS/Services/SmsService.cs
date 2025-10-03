@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,10 +13,17 @@ namespace XYZSMS.Services
     {
         private readonly HttpClient _httpClient;
         private const string _baseUrl = "https://xyzsms.com/api";
-
-        public SmsService()
+        private readonly IConfiguration _configuration;
+        private readonly string _kudiBaseUrl;
+        private readonly string _kudiToken;
+        public SmsService(IConfiguration configuration)
         {
-            _httpClient = new HttpClient(); 
+            _httpClient = new HttpClient();
+
+            _configuration = configuration;
+ 
+            _kudiBaseUrl = _configuration["KudiSms:BaseUrl"];
+            _kudiToken = _configuration["KudiSms:Token"];
         }
 
         public async Task<string> CheckBalance(string username, string password)
@@ -88,5 +96,28 @@ namespace XYZSMS.Services
                 return null;
             }
         }
+
+
+        public async Task<string> SendKudiSms(string senderId, string recipients, string message, string gateway)
+        {
+            // Recipients should be comma-separated, already URL encoded if needed
+            var url = $"{_kudiBaseUrl}/sms?token={_kudiToken}&senderID={senderId}&recipients={Uri.EscapeDataString(recipients)}&message={Uri.EscapeDataString(message)}&gateway={gateway}";
+
+            try
+            {
+                var response = await _httpClient.GetAsync(url);
+                response.EnsureSuccessStatusCode();
+                var content = await response.Content.ReadAsStringAsync();
+                return content;
+                // Optionally deserialize:
+                // return JsonSerializer.Deserialize<KudiSmsResponse>(content);
+            }
+            catch (HttpRequestException ex)
+            {
+                Console.WriteLine($"KudiSMS Error: {ex.Message}");
+                return null;
+            }
+        }
+
     }
 }

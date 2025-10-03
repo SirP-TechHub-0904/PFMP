@@ -8,17 +8,17 @@ using XYZSMS.Services;
 
 namespace Application.Commands.SmsCommand
 {
-      public sealed class SendSmsCommand : IRequest<string>
+    public sealed class SendSmsCommand : IRequest<string>
     {
-        
-        public string Recipients { get; } 
-        public string SmsMessage { get; } 
 
-        public SendSmsCommand(string recipients, string smsMessage )
+        public string Recipients { get; }
+        public string SmsMessage { get; }
+
+        public SendSmsCommand(string recipients, string smsMessage)
         {
-           
-            Recipients = recipients; 
-            SmsMessage = smsMessage; 
+
+            Recipients = recipients;
+            SmsMessage = smsMessage;
         }
     }
 
@@ -34,8 +34,14 @@ namespace Application.Commands.SmsCommand
         public async Task<string> Handle(SendSmsCommand request, CancellationToken cancellationToken)
         {
             //return "";
-            return await _smsClient.ComposeMessage("onwuka1", "nation", request.Recipients, "", request.SmsMessage, "SendNow");
-
+            // return await _smsClient.ComposeMessage("onwuka1", "nation", request.Recipients, "", request.SmsMessage, "SendNow");
+            var result = await _smsClient.SendKudiSms(
+    senderId: "FMBEP",
+    recipients: request.Recipients,
+    message: request.SmsMessage,
+    gateway: "2"
+);
+            return result;
         }
     }
 }

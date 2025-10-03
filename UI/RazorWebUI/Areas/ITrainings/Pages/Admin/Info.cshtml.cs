@@ -1,5 +1,6 @@
 using Application.Queries.TrainingCategoryQueries;
 using Application.Queries.TrainingQueries;
+using Application.Queries.TrainingSettingQueries;
 using Domain.DTOs;
 using Domain.Models;
 using MediatR;
@@ -37,6 +38,16 @@ namespace RazorWebUI.Areas.ITrainings.Pages.Admin
 
             GetByIdTrainingCategoryQuery xCommand = new GetByIdTrainingCategoryQuery(id);
             TrainingCategory = await _mediator.Send(xCommand);
+
+
+            var query = new ListTrainingSettingByTrainingQuery(Training.Id);
+            var check = await _mediator.Send(query);
+
+            if (check.Count() == 0)
+            { 
+                return RedirectToPage("/TrainingSettingsPage/Add", new { id = Training.Id });
+            }
+
             return Page();
         }
     }

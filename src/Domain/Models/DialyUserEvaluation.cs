@@ -9,8 +9,12 @@ namespace Domain.Models
     public class DialyUserEvaluation
     {
         public long Id { get; set; }
-        public long EvaluationQuestionId { get; set; }
-        public EvaluationQuestion EvaluationQuestion { get; set; }
+        //public long? EvaluationQuestionId { get; set; }
+        //public EvaluationQuestion EvaluationQuestion { get; set; }
+        public long? DialyEvaluationQuestionId { get; set; }
+        public DialyEvaluationQuestion DialyEvaluationQuestion { get; set; }
+        
+        public string? Question { get; set; }
         public string? UserId { get; set; }
         public AppUser User { get; set; }
         public long? DialyActivityId { get; set; }

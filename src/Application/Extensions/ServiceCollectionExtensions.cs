@@ -92,7 +92,8 @@ namespace Application.Extensions
 
             });
 
-
+            //services.AddScoped<IAuditService, AuditService>();
+            services.AddHttpContextAccessor();
             services.AddTransient<IEmailListRepository, EmailListRepository>();
             services.AddTransient<IEmailProjectRepository, EmailProjectRepository>();
             services.AddTransient<IEmailResponseStatusRepository, EmailResponseStatusRepository>();

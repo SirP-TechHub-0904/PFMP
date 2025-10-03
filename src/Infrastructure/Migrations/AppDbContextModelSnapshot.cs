@@ -424,8 +424,11 @@ namespace Infrastructure.Migrations
                     b.Property<long?>("DialyActivityId")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("EvaluationQuestionId")
+                    b.Property<long?>("DialyEvaluationQuestionId")
                         .HasColumnType("bigint");
+
+                    b.Property<string>("Question")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Submitted")
                         .HasColumnType("bit");
@@ -437,7 +440,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("DialyActivityId");
 
-                    b.HasIndex("EvaluationQuestionId");
+                    b.HasIndex("DialyEvaluationQuestionId");
 
                     b.HasIndex("UserId");
 
@@ -620,6 +623,31 @@ namespace Infrastructure.Migrations
                     b.HasIndex("UserCategoryGroupId");
 
                     b.ToTable("EmailSendingStatuses");
+                });
+
+            modelBuilder.Entity("Domain.Models.EntityLogging", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Entity")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LoggedInUserEmail")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SpecificChanges")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EntityLoggings");
                 });
 
             modelBuilder.Entity("Domain.Models.EvaluationQuestion", b =>
@@ -1746,11 +1774,9 @@ namespace Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("DialyActivityId");
 
-                    b.HasOne("Domain.Models.EvaluationQuestion", "EvaluationQuestion")
+                    b.HasOne("Domain.Models.DialyEvaluationQuestion", "DialyEvaluationQuestion")
                         .WithMany()
-                        .HasForeignKey("EvaluationQuestionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DialyEvaluationQuestionId");
 
                     b.HasOne("Domain.Models.AppUser", "User")
                         .WithMany()
@@ -1758,7 +1784,7 @@ namespace Infrastructure.Migrations
 
                     b.Navigation("DialyActivity");
 
-                    b.Navigation("EvaluationQuestion");
+                    b.Navigation("DialyEvaluationQuestion");
 
                     b.Navigation("User");
                 });

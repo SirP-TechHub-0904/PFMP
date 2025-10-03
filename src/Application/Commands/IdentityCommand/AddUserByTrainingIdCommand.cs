@@ -133,30 +133,6 @@ namespace Application.Commands.IdentityCommand
 
                 regResponse.Success = true;
 
-
-                //TrainingParticipant tmodel = new TrainingParticipant();
-                //tmodel.TrainingId = request.TrainingId;
-                //tmodel.UserId = request.ExistingUserId;
-                //try
-                //{
-
-                //    AddTrainingParticipantCommand tcomand = new AddTrainingParticipantCommand(tmodel);
-                //    await _mediator.Send(tcomand);
-
-                //    //
-
-
-                //    regResponse.AddedToTraining = true;
-                //    regResponse.TrainingId = tmodel.TrainingId;
-                //    regResponse.Success = true;
-                //    regResponse.UserId = tmodel.UserId;
-                //    regResponse.Role = "Participant";
-                //    //id = response.UserId, rx = response.Role, txid = response.TrainingId, area="User"
-                //}
-                //catch (Exception ex)
-                //{
-
-                //}
             }
             return regResponse;
 

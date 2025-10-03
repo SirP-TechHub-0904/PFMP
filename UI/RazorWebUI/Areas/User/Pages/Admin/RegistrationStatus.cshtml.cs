@@ -1,4 +1,4 @@
-using Amazon.Runtime.Internal;
+﻿using Amazon.Runtime.Internal;
 using Application.Commands.EmailCommand;
 using Application.Commands.IdentityCommand;
 using Application.Commands.SmsCommand;
@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using PostmarkEmailService;
 using System.Text.Encodings.Web;
+using System.Text.Json;
+using XYZSMS.DTO;
 
 namespace RazorWebUI.Areas.User.Pages.Admin
 {
@@ -87,16 +89,31 @@ namespace RazorWebUI.Areas.User.Pages.Admin
 
 
 
-                if (result.Contains("Ok"))
+                if (!string.IsNullOrWhiteSpace(result))
                 {
-                    UserDatas.SmsSent = true;
-                    await _userManager.UpdateAsync(UserDatas);
-                    TempData["success"] = "Successful";
+                    try
+                    {
+                        var json = JsonSerializer.Deserialize<KudiSmsResponse>(result);
+
+                        if (json != null && json.status == "success" && json.error_code == "000")
+                        {
+                            UserDatas.SmsSent = true;
+                            await _userManager.UpdateAsync(UserDatas);
+                            TempData["success"] = "Message sent successfully ✅";
+                        }
+                        else
+                        {
+                            TempData["error"] = $"Failed to send SMS: {json?.msg ?? "Unknown error"}";
+                        }
+                    }
+                    catch (JsonException)
+                    {
+                        TempData["error"] = "Invalid response from SMS";
+                    }
                 }
                 else
                 {
-                    TempData["error"] = "Failed";
-
+                    TempData["error"] = "No response from SMS";
                 }
             }
             return RedirectToPage("./RegistrationStatus", new { id = UserId, rx = Rx, txid = TrId });

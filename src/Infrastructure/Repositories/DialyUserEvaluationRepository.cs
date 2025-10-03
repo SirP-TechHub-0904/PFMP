@@ -24,7 +24,7 @@ namespace Infrastructure.Repositories
 
         public async Task<bool> CheckIfEvaluationHasBeenTaken(long eveluationQuestionId)
         {
-            var result = await _context.DialyUserEvaluations.FirstOrDefaultAsync(x => x.EvaluationQuestionId == eveluationQuestionId);
+            var result = await _context.DialyUserEvaluations.FirstOrDefaultAsync(x => x.DialyEvaluationQuestionId == eveluationQuestionId);
             if (result == null)
             {
                 return false;
@@ -47,7 +47,7 @@ namespace Infrastructure.Repositories
         {
             DialyUserEvaluationResultDto result = new DialyUserEvaluationResultDto();
             var userresult = await _context.DialyUserEvaluations
-               .Include(x => x.EvaluationQuestion)
+               .Include(x => x.DialyEvaluationQuestion)
                .Where(x => x.DialyActivityId == dailyId && x.UserId == userId).ToListAsync();
 
             result.DialyUserEvaluation = userresult;
@@ -63,7 +63,13 @@ namespace Infrastructure.Repositories
             foreach (var (questionId, answer, userId, dialyActivityId) in evaluationData)
             {
                 var existingEvaluation = await _context.DialyUserEvaluations
-                    .FirstOrDefaultAsync(e => e.UserId == userId && e.DialyActivityId == dialyActivityId && e.EvaluationQuestionId == questionId);
+                    .FirstOrDefaultAsync(e => e.UserId == userId && e.DialyActivityId == dialyActivityId && e.DialyEvaluationQuestionId == questionId);
+
+               var checkquestion = await _context.EvaluationQuestions.FirstOrDefaultAsync(x=>x.Id == questionId);
+                if(checkquestion == null)
+                {
+                    string test = "";
+                }
 
                 if (existingEvaluation == null)
                 {
@@ -72,7 +78,7 @@ namespace Infrastructure.Repositories
                         UserId = userId,
                         DialyActivityId = dialyActivityId,
                         Answer = answer,
-                        EvaluationQuestionId = questionId,
+                        DialyEvaluationQuestionId = questionId,
                         Submitted = true,
                         Date = DateTime.UtcNow.AddHours(1)
                     };
@@ -106,7 +112,7 @@ namespace Infrastructure.Repositories
         public async Task<List<DialyUserEvaluation>> GetAll(long id)
         {
             var list = await _context.DialyUserEvaluations.Include(x => x.User)
-                .Include(x => x.EvaluationQuestion)
+                .Include(x => x.DialyEvaluationQuestion)
                 .Include(x => x.DialyActivity)
                 .Where(x => x.DialyActivityId == id)
                 .GroupBy(x => x.UserId)
