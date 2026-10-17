@@ -3,7 +3,7 @@ set -e
 
 APP_DIR="/var/www/pfmp"
 SERVICE_NAME="pfmp.service"
-APP_EXEC="RazorWebUI"
+APP_EXEC="FMBP.UI"
 
 SUDO=""
 if [ "$(id -u)" -ne 0 ]; then
@@ -39,39 +39,18 @@ fi
 # Make binary executable
 chmod +x "$APP_DIR/$APP_EXEC" 2>/dev/null || true
 
-# 4. Handle .env on first deploy vs subsequent deploys
+# 4. Handle .env: Preserve existing production configuration
 if [ "$PRESERVED_ENV" = true ]; then
   echo ">>> Restoring preserved production .env file..."
   cp /tmp/pfmp_existing.env "$APP_DIR/.env"
   rm -f /tmp/pfmp_existing.env
-else
-  # First deployment
-  if [ -f "$APP_DIR/.env" ]; then
-    echo ">>> First deploy: .env was moved with the deployment package!"
-  else
-    echo ">>> First deploy: Initializing default .env configuration..."
-    cat << 'EOF' > "$APP_DIR/.env"
-# Database Connection String
-ConnectionStrings__AppConnection="Server=[REDACTED_SERVER_IP],1433;Database=fmbepnutritionDB;User Id=user_db;Password=[REDACTED_DB_PASSWORD];TrustServerCertificate=True;MultipleActiveResultSets=true;"
-
-# Postmark Email Service
-PostmarkSettings__ServerToken="[REDACTED_POSTMARK_TOKEN]"
-
-# AWS Configuration (S3 Storage)
-AwsConfiguration__AWSAccessKey="[REDACTED_AWS_ACCESS_KEY]"
-AwsConfiguration__AWSSecretKey="[REDACTED_AWS_SECRET_KEY]"
-
-# KudiSMS Configuration
-KudiSms__BaseUrl="https://my.kudisms.net/api"
-KudiSms__Token="[REDACTED_SECRET_KEY]"
-
-# ASP.NET Core Runtime Settings
-ASPNETCORE_ENVIRONMENT=Production
-ENABLE_HTTPS_REDIRECTION=false
-EOF
-  fi
+elif [ -f "$APP_DIR/.env" ]; then
+  echo ">>> .env is present in $APP_DIR."
 fi
-chmod 600 "$APP_DIR/.env"
+
+if [ -f "$APP_DIR/.env" ]; then
+  chmod 600 "$APP_DIR/.env"
+fi
 
 # 5. Stop existing service/process temporarily to verify port availability
 echo ">>> Checking running services..."

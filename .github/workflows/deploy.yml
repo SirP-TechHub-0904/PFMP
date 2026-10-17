@@ -23,7 +23,7 @@ jobs:
 
       - name: Publish Self-Contained Web Application
         run: |
-          dotnet publish UI/RazorWebUI/RazorWebUI.csproj \
+          dotnet publish UI/FMBP.UI/FMBP.UI.csproj \
             -c Release \
             -r linux-x64 \
             --self-contained true \
@@ -32,12 +32,9 @@ jobs:
 
       - name: Ensure .env is Included in Package
         run: |
-          if [ -f "UI/RazorWebUI/.env" ]; then
-            cp "UI/RazorWebUI/.env" ./publish/.env
-            echo ">>> Copied UI/RazorWebUI/.env into publish directory"
-          elif [ -f ".env" ]; then
-            cp ".env" ./publish/.env
-            echo ">>> Copied root .env into publish directory"
+          if [ -f "UI/FMBP.UI/.env" ]; then
+            cp "UI/FMBP.UI/.env" ./publish/.env
+            echo ">>> Copied UI/FMBP.UI/.env into publish directory"
           fi
 
       - name: Copy Deploy Script into Package

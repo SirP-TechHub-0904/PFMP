@@ -1,0 +1,69 @@
+@page
+@model FMBP.UI.Areas.ITrainings.Pages.TrainingImagePage.UpdateModel
+@{
+}
+
+<div class="card card-default">
+    <div class="card-header">
+        <h3 class="card-title">UPDATE TRAINING IMAGE</h3>
+
+    </div>
+    <!-- /.card-header -->
+
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <form method="post" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="TrainingImage.Id" />
+                    <input type="hidden" asp-for="TrainingImage.TrainingId" />
+                    <div class="form-group">
+                        <label asp-for="TrainingImage.Title" class="control-label"></label>
+                        <input asp-for="TrainingImage.Title" class="form-control" />
+                        <span asp-validation-for="TrainingImage.Title" class="text-danger"></span>
+                    </div>
+                   
+
+                    @if (!String.IsNullOrEmpty(Model.TrainingImage.Url))
+                    {
+                        <div class="form-group">
+                            <label class="control-label">Logo</label><br />
+                            <img src="@Model.TrainingImage.Url" style="max-height:200px;" />
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Change Image</label><br />
+                            <input type="file" class="control-label" asp-for="imagefile" accept="image/*" />
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="form-group">
+                            <label class="control-label">Image</label><br />
+                            <input type="file" class="control-label" asp-for="imagefile" accept="image/*" required="required" />
+                        </div>
+                    }
+
+                    <div class="form-group">
+                        <input type="submit" value="Update" class="btn btn-primary" />
+                        <a asp-page="./Index" class="btn bg-gradient-warning btn-sm" style="float:right;">Back</a>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+        <!-- /.row -->
+    </div>
+    <!-- /.card-body -->
+    <div class="card-footer">
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script src="~/js/lga.js"></script>
+}

@@ -1,0 +1,69 @@
+@page
+@model FMBP.UI.Areas.ITrainings.Pages.Admin.EvaluationBarcodeModel
+@{
+}
+
+<style>
+    .input-group-sm > .custom-select, .input-group-sm > .form-control:not(textarea) {
+        height: auto;
+    }
+
+    .daiv {
+        box-shadow: 0px 11px 35px 0px #c5b5b4;
+        padding: 20px;
+    }
+
+    .secdaiv {
+        box-shadow: 0px 4px 5px 0px #c5b5b4;
+        padding: 10px;
+    }
+</style>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h6 class="card-title">EVALUATION BARCODE</h6>
+            </div>
+
+             <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div>
+                            <div class="row">
+
+                                <div class="col-md-12">
+
+                                    <div>
+                                        <div style="padding:5px;background-color:white;">
+                                            <img class="" src="data:image/jpg;base64,@(Convert.ToBase64String(Model.BarcodeImage))" style="max-height:500px;" />
+
+                                        </div>
+                                        <a href="data:application/octet-stream;base64,@(Convert.ToBase64String(Model.BarcodeImage))" download="Evaluation_Barcode.jpg" title="Evaluation Barcode" class="btn btn-primary btn-xs" style="text-transform:uppercase;margin-bottom:7px;">
+                                            Download Evaluation BarCode
+                                        </a>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+
+    <div class="card-footer">
+        <a href="javascript:history.back()" class="btn bg-gradient-warning btn-sm">Back</a>
+    </div>
+</div> 

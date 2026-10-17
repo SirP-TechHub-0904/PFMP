@@ -1,0 +1,48 @@
+@page
+@model FMBP.UI.Areas.Dashboard.Pages.Admin.NutritionDashboardModel
+@{
+}
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">
+          NUTRITION 774  DASHBOARD
+        </h3>
+
+
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        <div class="row">
+            @foreach (var item in Model.UserCategories)
+            {
+
+                <div class="col-lg-3 col-6 dashboard-1">
+                    <!-- small box -->
+                    <a asp-page="/Admin/UserInGroup" asp-route-id="@item.Id" asp-area="User">
+                        <div class="small-box bg-primary">
+                            <div class="inner">
+                                <h3>@item.UserCategoryGroups.Count()</h3>
+
+                                <p>@item.Description</p>
+                            </div>
+
+                        </div>
+                    </a>
+                </div>
+            }
+
+             
+
+        </div>
+    </div>
+
+     
+
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+}
