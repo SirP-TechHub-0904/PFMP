@@ -1,4 +1,4 @@
-﻿using Azure;
+using Azure;
 using Domain.DTOs;
 using Domain.Interfaces;
 using Domain.Models;
@@ -20,13 +20,12 @@ namespace Infrastructure.Repositories
         public EmailSendingStatusRepository(AppDbContext context, PostmarkClient postmarkClient, IConfiguration configuration) : base(context)
         {
             _context = context;
-            _postmarkClient = new PostmarkClient(GetServerTokenFromSettings());
             _configuration = configuration;
+            _postmarkClient = new PostmarkClient(GetServerTokenFromSettings());
         }
         private string GetServerTokenFromSettings()
         {
-            return "[REDACTED_POSTMARK_TOKEN]";
-            //return _configuration.GetSection("PostmarkSettings")["ServerToken"];
+            return _configuration?.GetSection("PostmarkSettings")?["ServerToken"] ?? System.Environment.GetEnvironmentVariable("PostmarkSettings__ServerToken") ?? "";
         }
         public async Task<RegisterGroupEmailsDto> AddEmailsForSending(long projectId, long? groupId, bool sendToAllGroup, string bulkUserInput)
         {

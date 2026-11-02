@@ -364,3 +364,9 @@ FodyWeavers.xsd
 
 # Ignore local environment appsettings overrides
 appsettings.*.json
+.env
+.env.*
+!.env.example
+**/.env
+**/.env.*
+!**/.env.example
